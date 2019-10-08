@@ -1,0 +1,281 @@
+/**
+ * SCSS - _medwesthpplugin-admin-ui.scss - Holds general Admin CSS that applies plugin-wide, including CSS for the Admin containers, the advertisment areas, and the dashboard icon
+ *
+ * @author   Jake Evans
+ * @category SCSS
+ * @package  Includes/Assets/CSS
+ * @version  6.0.0
+ */
+
+
+/*
+ * BEGIN ADMIN CONTAINER BONES, ADVERTISMENT, LICENSE UI ELEMENTS, AND DASHBOARD ICON CSS
+ */
+.medwesthpplugin-admin-top-container, .medwesthpplugin-admin-advert-container{
+    @extend %medwesthealthpoints-admin-containers;
+}
+
+.medwesthpplugin-admin-top-title-icon{
+    @extend %medwesthealthpoints-admin-top-title-icon;
+}
+
+.medwesthpplugin-admin-top-title{
+    @extend %medwesthealthpoints-admin-top-title;
+}
+
+.medwesthpplugin-admin-advert-visit-me-title{
+    @extend %medwesthealthpoints-admin-advert-visit-me-title;
+}
+
+.medwesthpplugin-admin-advert-site-div{
+    @extend %medwesthealthpoints-admin-advert-site-div;
+}
+
+.medwesthpplugin-admin-advert-site-div img{
+    @extend %medwesthealthpoints-margin-auto-centered;
+    width: 100%;
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#medwesthpplugin-admin-advert-email-me{
+    @extend %medwesthealthpoints-margin-auto-centered;
+    text-align: center;
+    width: 70%;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+#medwesthpplugin-admin-advert-flex-container{
+    display:flex;
+}
+
+#medwesthpplugin-facebook-link-div, #medwesthpplugin-admin-advert-money-container{
+    text-align:center;
+}
+
+#medwesthpplugin-admin-advert-money-container form{
+    display: inline-block;
+}
+
+#medwesthpplugin-patreon-img{
+    width: 100px;
+}
+
+#medwesthpplugin-patreon-link{
+    display: inline-block;
+    margin: 10px;
+}
+
+.medwesthpplugin-admin-advert-visit-me-link{
+    text-decoration:none;
+    font-size: 20px;
+    margin-bottom: 30px;
+    display: block;
+}
+
+.medwesthealthpoints_page_MedWesthealthpoints-Options .dashicons-before img {
+    width: 30px !important;
+    margin-right: 2px !important;
+    margin-left: 2px !important;
+}
+
+.medwesthpplugin-my-notice-dismiss-forever{
+    @extend %medwesthealthpoints-default-buttons-style;
+}
+
+.medwesthpplugin-my-notice-dismiss-forever:hover {
+    @extend %medwesthealthpoints-default-buttons-style-hover;
+}
+
+.medwesthpplugin-extension-genreric-key-plugins-page-input{
+    margin-right:5px;
+}
+
+.medwesthpplugin-extension-genreric-key-dashboard-input{
+    min-width:300px;
+}
+
+.medwesthpplugin-extension-genreric-key-dashboard-form{
+    padding-bottom:10px;
+}
+
+/*
+ * BEGIN ADMIN CONTAINER BONES, ADVERTISMENT, LICENSE UI ELEMENTS, AND DASHBOARD ICON CSS
+ */
+
+
+/*
+ * BEGIN COMMON ELEMENTS INSIDE OF TOP ADMIN CONTAINERS
+ */
+
+ .medwesthpplugin-color-orange-italic{
+    @extend  %medwesthealthpoints-color-orange-italic;
+ }
+
+.medwesthpplugin-tab-intro-para{
+    @extend %medwesthealthpoints-tab-intro-para;
+}
+
+.medwesthpplugin-tab-intro-para-left{
+    @extend %medwesthealthpoints-tab-intro-para;
+    text-align: left;
+}
+
+.medwesthpplugin-icon-image-question, .medwesthpplugin-icon-image-question-with-link{
+   @extend %medwesthealthpoints-icon-image-question;
+}
+
+.medwesthpplugin-icon-image-question-with-link{
+    right: 3px;
+}
+
+.medwesthpplugin-spinner{
+    @extend %medwesthealthpoints-spinner;
+}
+
+.medwesthpplugin-response-success-fail-container{
+    @extend %medwesthealthpoints-response-success-fail-container;
+}
+
+.medwesthpplugin-question-icon-label{
+    @extend %medwesthealthpoints-question-icon-label;
+}
+
+.medwesthpplugin-addition-div-img{
+    width:22px;
+}
+
+.medwesthpplugin-addition-div-img{
+   @extend %medwesthealthpoints-addition-div-img;
+}
+
+.medwesthpplugin-addition-div-p{
+    @extend %medwesthealthpoints-addition-div-p;
+}
+
+#medwesthpplugin-smile-icon-1{
+    @extend %medwesthealthpoints-margin-auto-centered;
+    @extend %medwesthealthpoints-smile-icon;
+}
+
+#medwesthpplugin-success-span{
+    font-style: italic;
+    color: $primary-color;
+    font-size: 16px;
+}
+
+.medwesthpplugin-show-book-colorbox {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.medwesthpplugin-bold-shortcode{
+    @extend %medwesthealthpoints-bold-shortcode;
+}
+
+.medwesthpplugin-bold-shortcode-orange{
+    @extend %medwesthealthpoints-bold-shortcode-orange;
+}
+
+.medwesthpplugin-bold-li-heading{
+   @extend %medwesthealthpoints-bold-li-heading;
+}
+
+#medwesthpplugin-dynamic-input-library{
+    min-width: 300px;
+    margin-bottom:50px;
+}
+
+#medwesthpplugin-dynamic-shortcode-button{
+    margin-bottom:50px;
+}
+
+#medwesthpplugin-dynamic-shortcode-button, .medwesthealthpoints_delete_custom_lib{
+    width: 200px;
+}
+
+.medwesthpplugin-response-success-fail-button{
+   @extend %medwesthealthpoints-response-success-fail-button;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+#medwesthpplugin-cache-clear-wrapper{
+    width: 70%;
+    margin: 25px;
+    margin-top: 0px;
+    position: relative;
+    text-align: center;
+    top: 5px;
+}
+
+
+#medwesthpplugin-cache-clear-wrapper img{
+    left: 0px;
+    top: 1px;
+}
+
+#medwesthpplugin-spinner-cache{
+    height: 10px;
+    width: 10px;
+    display: inline-block;
+    top: 10px;
+    border-left: 1px solid #F1F1F1;
+    border-right: 1px solid #F1F1F1;
+    border-bottom: 1px solid #F1F1F1;
+}
+
+
+
+/*
+ * END COMMON ELEMENTS INSIDE OF TOP ADMIN CONTAINERS
+ */
+
+
+
+/*
+ * 
+ */
+
+#medwesthpplugin-display-options-container{
+    text-align: center;
+}
+
+.medwesthpplugin-form-section-fields-wrapper{
+    display: flex;
+    margin: 10px;
+}
+
+.medwesthpplugin-form-section-fields-label{
+    display: block;
+}
+
+.medwesthpplugin-form-section-fields-indiv-wrapper{
+    flex: 1;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.medwesthpplugin-form-section-fields-indiv-wrapper input {
+    width:13vw;
+}
+
+@media screen and ( max-width: 960px ){
+
+    .medwesthpplugin-form-section-fields-wrapper{
+        flex-direction: column;
+    }
+
+    .medwesthpplugin-form-section-fields-indiv-wrapper input {
+        width:40vw;
+    }
+
+}
+
+
+ /*
+ * END CSS FOR COMMON FORM FILL
+ */

@@ -26,6 +26,29 @@ if ( ! class_exists( 'MedWestHealthPoints_General_Functions', false ) ) :
 			require_once MEDWESTHEALTHPOINTS_ROOT_INCLUDES_UI_ADMIN_DIR . 'class-admin-master-ui.php';
 		}
 
+		/**
+		 *  Code for adding ajax
+		 */
+		public function medwesthealthpoints_jre_prem_add_ajax_library() {
+
+			$html = '<script type="text/javascript">';
+
+			// Checking $protocol in HTTP or HTTPS.
+			if ( isset( $_SERVER['HTTPS'] ) && 'off' !== $_SERVER['HTTPS'] ) {
+				// This is HTTPS.
+				$protocol = 'https';
+			} else {
+				// This is HTTP.
+				$protocol = 'http';
+			}
+			$temp_ajax_path = admin_url( 'admin-ajax.php' );
+			$good_ajax_url  = $protocol . strchr( $temp_ajax_path, ':' );
+
+			$html .= 'var ajaxurl = "' . $good_ajax_url . '"';
+			$html .= '</script>';
+			echo $html;
+		}
+
 		/** Functions that loads up the menu page entry for this Extension.
 		 *
 		 *  @param array $submenu_array - The array that contains submenu entries to add to.
@@ -122,8 +145,49 @@ if ( ! class_exists( 'MedWestHealthPoints_General_Functions', false ) ) :
 		public function medwesthealthpoints_frontend_js() {
 
 			wp_register_script( 'medwesthealthpoints_frontendjs', MEDWESTHEALTHPOINTS_JS_URL . 'medwesthealthpoints_frontend.min.js', array( 'jquery' ), MEDWESTHEALTHPOINTS_VERSION_NUM, true );
+
+
+			global $wpdb;
+
+			$final_array_of_php_values = array();
+
+			// Adding some other individual values we may need.
+			$final_array_of_php_values['MEDWESTHEALTHPOINTS_ROOT_IMG_ICONS_URL']   = MEDWESTHEALTHPOINTS_ROOT_IMG_ICONS_URL;
+			$final_array_of_php_values['MEDWESTHEALTHPOINTS_ROOT_IMG_URL']   = MEDWESTHEALTHPOINTS_ROOT_IMG_URL;
+			$final_array_of_php_values['FOR_TAB_HIGHLIGHT']    = admin_url() . 'admin.php';
+			$final_array_of_php_values['SAVED_ATTACHEMENT_ID'] = get_option( 'media_selector_attachment_id', 0 );
+			$final_array_of_php_values['DB_PREFIX'] = $wpdb->prefix;
+
+			// Now grab all of our Nonces to pass to the JavaScript for the Ajax functions and merge with the Translations array.
+			$final_array_of_php_values = array_merge( $final_array_of_php_values, json_decode( MEDWEST_FINAL_NONCES_ARRAY, true ) );
+
+			// Now registering/localizing our JavaScript file, passing all the PHP variables we'll need in our $final_array_of_php_values array, to be accessed from 'wpbooklist_php_variables' object (like wpbooklist_php_variables.nameofkey, like any other JavaScript object).
+			wp_localize_script( 'medwesthealthpoints_frontendjs', 'medwestHealthpointsPhpVariables', $final_array_of_php_values );
+
+
 			wp_enqueue_script( 'medwesthealthpoints_frontendjs' );
 
+		}
+
+		/**
+		 *  Function that logs in a user automatically after they've first registered.
+		 */
+		public function medwesthealthpoints_autologin_after_registering() {
+
+			if ( false !== stripos( $_SERVER['REQUEST_URI'], '?un=' ) ) {
+
+				$username = filter_var( $_GET['un'], FILTER_SANITIZE_STRING );
+				$user     = get_user_by( 'login', $username );
+
+				// Redirect URL.
+				if ( ! is_wp_error( $user ) ) {
+					clean_user_cache( $user->ID );
+					wp_clear_auth_cookie();
+					wp_set_current_user($user->ID);
+					wp_set_auth_cookie( $user->ID, true, false );
+					update_user_caches( $user );
+				}
+			}
 		}
 
 		/**
@@ -141,7 +205,7 @@ if ( ! class_exists( 'MedWestHealthPoints_General_Functions', false ) ) :
 		 */
 		public function medwesthealthpoints_frontend_style() {
 
-			wp_register_style( 'medwesthealthpoints_frontendui', MEDWESTHEALTHPOINTS_CSS_URL . 'medwesthealthpoint-smain-frontend.css', null, MEDWESTHEALTHPOINTS_VERSION_NUM );
+			wp_register_style( 'medwesthealthpoints_frontendui', MEDWESTHEALTHPOINTS_CSS_URL . 'medwesthealthpoints-main-frontend.css', null, MEDWESTHEALTHPOINTS_VERSION_NUM );
 			wp_enqueue_style( 'medwesthealthpoints_frontendui' );
 
 		}
@@ -268,7 +332,6 @@ if ( ! class_exists( 'MedWestHealthPoints_General_Functions', false ) ) :
 				$wpdb->insert( $table_name, array( 'ID' => 1, ) );
 			}
 
-
 			$sql_create_table5 = "CREATE TABLE {$wpdb->medwesthealthpoints_rewardrequests}
 			(
 				ID bigint(190) auto_increment,
@@ -290,9 +353,17 @@ if ( ! class_exists( 'MedWestHealthPoints_General_Functions', false ) ) :
 				$wpdb->insert( $table_name, array( 'ID' => 1, ) );
 			}
 
+		}
 
+		/**
+		 *  The shortcode for displaying the login form / register forms / dashboard.
+		 */
+		public function medwesthealthpoints_login_shortcode_function() {
 
-
+			ob_start();
+			include_once MEDWESTHEALTHPOINTS_CLASS_DIR . 'class-medwesthealthpoints-dashboard-ui.php';
+			$front_end_ui = new MedWestHealthPoints_Dashboard_UI();
+			return ob_get_clean();
 
 		}
 

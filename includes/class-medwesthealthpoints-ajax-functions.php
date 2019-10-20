@@ -26,6 +26,98 @@ if ( ! class_exists( 'MedWestHealthPoints_Ajax_Functions', false ) ) :
 
 		}
 
+
+		public function medwesthealthpoints_register_new_user_action_callback() {
+			error_log('fdsfdsa');
+
+			global $wpdb;
+			//check_ajax_referer( 'medwesthealthpoints_register_new_user_action', 'security' );
+
+			$userfirstname  = '';
+			$userlastname   = '';
+			$useremail      = '';
+			$userpassword   = '';
+			$userdepartment = '';
+			$useridnumber   = '';
+
+			if ( isset( $_POST['userfirstname'] ) ) {
+				$userfirstname = filter_var( wp_unslash( $_POST['userfirstname'] ), FILTER_SANITIZE_STRING );
+			}
+
+			if ( isset( $_POST['userlastname'] ) ) {
+				$userlastname = filter_var( wp_unslash( $_POST['userlastname'] ), FILTER_SANITIZE_STRING );
+			}
+
+			if ( isset( $_POST['useremail'] ) ) {
+				$useremail = filter_var( wp_unslash( $_POST['useremail'] ), FILTER_SANITIZE_STRING );
+			}
+
+			if ( isset( $_POST['userpassword'] ) ) {
+				$userpassword = filter_var( wp_unslash( $_POST['userpassword'] ), FILTER_SANITIZE_STRING );
+			}
+
+			if ( isset( $_POST['userdepartment'] ) ) {
+				$userdepartment = filter_var( wp_unslash( $_POST['userdepartment'] ), FILTER_SANITIZE_STRING );
+			}
+
+			if ( isset( $_POST['useridnumber'] ) ) {
+				$useridnumber = filter_var( wp_unslash( $_POST['useridnumber'] ), FILTER_SANITIZE_STRING );
+			}
+
+
+			// Let's make checks for WordPress user/e-mail already being taken.
+			$user_id       = '';
+			$usernamecheck = username_exists( $useremail );
+			if ( $usernamecheck ) {
+				$error = 'Username Exists';
+				wp_die( $error );
+			}
+
+			if ( email_exists( $useremail ) ) {
+				$error = 'E-Mail Exists';
+				wp_die( $error );
+			}
+
+			if ( ! $usernamecheck && false === email_exists( $useremail ) ) {
+				$user_id = wp_create_user( $useremail, $userpassword, $useremail );
+				if ( is_wp_error( $user_id ) ) {
+					$user_id = 'Unknown error creating WordPress User';
+					wp_die( $user_id );
+				} else {
+
+					// Now add the user to the custom table.
+					$user_table_array = array(
+						'userfirstname'    => $userfirstname,
+						'userlastname'     => $userlastname,
+						'userjoindate'     => date("l jS \of F Y h:i:s A"),
+						'userwpuserid'     => $user_id,
+						'userdepartment'   => $userdepartment,
+						'useridnumber'     => $useridnumber,
+						'userhealthpoints' => 0,
+						'userlastlogin'    => time(),
+					);
+
+					$user_table_dbtype_array = array(
+						'%s',
+						'%s',
+						'%s',
+						'%s',
+						'%s',
+						'%s',
+						'%d',
+						'%s',
+					);
+
+					$users_table_result = $wpdb->insert( $wpdb->prefix . 'medwesthealthpoints_users', $user_table_array, $user_table_dbtype_array );
+					$user_id            = $wpdb->insert_id;
+					wp_die( $user_id . '--$user_id--' . $useremail );
+				}
+			}
+
+		}
+
+
+
 	}
 endif;
 

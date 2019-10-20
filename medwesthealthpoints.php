@@ -140,7 +140,7 @@ global $wpdb;
 	// Nonces array.
 	define( 'MEDWESTHEALTHPOINTS_NONCES_ARRAY',
 		wp_json_encode(array(
-			'adminnonce1' => 'medwesthealthpoints_save_license_key_action_callback',
+			'adminnonce1' => 'medwesthealthpoints_register_new_user_action_callback',
 		))
 	);
 
@@ -170,6 +170,9 @@ global $wpdb;
 
 /* FUNCTIONS FOUND IN CLASS-WPPLUGIN-GENERAL-FUNCTIONS.PHP THAT APPLY PLUGIN-WIDE */
 
+	// Adding Ajax library.
+	add_action( 'wp_head', array( $medwesthealthpoints_general_functions, 'medwesthealthpoints_jre_prem_add_ajax_library' ) );
+
 	// For the admin pages.
 	add_action( 'admin_menu', array( $medwesthealthpoints_general_functions, 'medwesthealthpoints_jre_my_admin_menu' ) );
 
@@ -177,8 +180,8 @@ global $wpdb;
 	// Adding the function that will take our MEDWESTHEALTHPOINTS_NONCES_ARRAY Constant from above and create actual nonces to be passed to Javascript functions.
 	add_action( 'init', array( $medwesthealthpoints_general_functions, 'medwesthealthpoints_create_nonces' ) );
 
-	// Function to run any code that is needed to modify the plugin between different versions.
-	//add_action( 'plugins_loaded', array( $medwesthealthpoints_general_functions, 'medwesthealthpoints_update_upgrade_function' ) );
+	// Function that logs in a user automatically after they've first registered.
+	add_action( 'after_setup_theme', array( $medwesthealthpoints_general_functions, 'medwesthealthpoints_autologin_after_registering' ) );
 
 	// Adding the admin js file.
 	add_action( 'admin_enqueue_scripts', array( $medwesthealthpoints_general_functions, 'medwesthealthpoints_admin_js' ) );
@@ -201,11 +204,20 @@ global $wpdb;
 	// Creates tables upon activation.
 	register_activation_hook( __FILE__, array( $medwesthealthpoints_general_functions, 'medwesthealthpoints_create_tables' ) );
 
+	// Adding the front-end login / dashboard shortcode.
+	add_shortcode( 'medwesthealthpoints_login_shortcode', array( $medwesthealthpoints_general_functions, 'medwesthealthpoints_login_shortcode_function' ) );
+
 
 
 /* END OF FUNCTIONS FOUND IN CLASS-WPPLUGIN-GENERAL-FUNCTIONS.PHP THAT APPLY PLUGIN-WIDE */
 
 /* FUNCTIONS FOUND IN CLASS-WPPLUGIN-AJAX-FUNCTIONS.PHP THAT APPLY PLUGIN-WIDE */
+	add_action( 'wp_ajax_medwesthealthpoints_register_new_user_action', array( $medwesthealthpoints_ajax_functions, 'medwesthealthpoints_register_new_user_action_callback' ) );
+	add_action( 'wp_ajax_nopriv_medwesthealthpoints_register_new_user_action', array( $medwesthealthpoints_ajax_functions, 'medwesthealthpoints_register_new_user_action_callback' ) );
+
+
+
+
 
 
 /* END OF FUNCTIONS FOUND IN CLASS-WPPLUGIN-AJAX-FUNCTIONS.PHP THAT APPLY PLUGIN-WIDE */

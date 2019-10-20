@@ -89,12 +89,13 @@ if ( ! class_exists( 'MedWestHealthPoints_Ajax_Functions', false ) ) :
 					$user_table_array = array(
 						'userfirstname'    => $userfirstname,
 						'userlastname'     => $userlastname,
-						'userjoindate'     => date("l jS \of F Y h:i:s A"),
+						'userjoindate'     => date("m/d/Y"),
 						'userwpuserid'     => $user_id,
 						'userdepartment'   => $userdepartment,
 						'useridnumber'     => $useridnumber,
 						'userhealthpoints' => 0,
-						'userlastlogin'    => time(),
+						'userlastlogin'    => date("m/d/Y"),
+						'useremail'        => $useremail,
 					);
 
 					$user_table_dbtype_array = array(
@@ -105,6 +106,7 @@ if ( ! class_exists( 'MedWestHealthPoints_Ajax_Functions', false ) ) :
 						'%s',
 						'%s',
 						'%d',
+						'%s',
 						'%s',
 					);
 

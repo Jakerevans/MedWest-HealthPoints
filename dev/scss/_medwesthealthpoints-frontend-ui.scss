@@ -12,6 +12,16 @@
 	width:100%;
 }
 
+#medwesthealthpoints-dashboard-loggedin-top-wrapper{
+	max-width:100%;
+	width:100%;
+}
+
+#medwesthealthpoints-join-as-vet, #wp-submit, .medwesthealthpoints-form-section-fields-input-button-apply{
+	background-color:#009693;
+}
+
+
 #medwesthealthpoints-dashboard-login-row-wrapper input[type="number"], #medwesthealthpoints-dashboard-login-row-wrapper input[type="text"], #medwesthealthpoints-dashboard-login-row-wrapper input[type="password"], #medwesthealthpoints-form-vetstate{
 	width:300px;
 }
@@ -78,4 +88,17 @@
 .medwesthealthpoints-confirmemail-block-message-div, .medwesthealthpoints-confirmpassword-block-message-div{
 	text-align: right;
 	height:35px;
+}
+
+.medwest-loggedin-indiv-profile-piece-wrapper{
+	display: inline-block;
+	margin: 20px;
+}
+
+#medwest-loggedin-profile-wrapper, #medwest-loggedin-title-div{
+	text-align:center;
+}
+
+#medwest-loggedin-title-div, .medwest-loggedin-indiv-wrapper-actual-title{
+	font-weight:bold;
 }

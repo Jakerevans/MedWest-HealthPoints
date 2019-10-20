@@ -219,6 +219,7 @@ if ( ! class_exists( 'MedWestHealthPoints_General_Functions', false ) ) :
 			$wpdb->medwesthealthpoints_users = "{$wpdb->prefix}medwesthealthpoints_users";
 			$wpdb->medwesthealthpoints_rewards = "{$wpdb->prefix}medwesthealthpoints_rewards";
 			$wpdb->medwesthealthpoints_activities = "{$wpdb->prefix}medwesthealthpoints_activities";
+			$wpdb->medwesthealthpoints_activities_submitted = "{$wpdb->prefix}medwesthealthpoints_activities_submitted";
 			$wpdb->medwesthealthpoints_rewardrequests = "{$wpdb->prefix}medwesthealthpoints_rewardrequests";
 		}
 
@@ -308,7 +309,7 @@ if ( ! class_exists( 'MedWestHealthPoints_General_Functions', false ) ) :
 			}
 
 
-			$sql_create_table4 = "CREATE TABLE {$wpdb->medwesthealthpoints_activities}
+			$sql_create_table4 = "CREATE TABLE {$wpdb->medwesthealthpoints_activities_submitted}
 			(
 				ID bigint(190) auto_increment,
 				activityname varchar(255),
@@ -325,10 +326,10 @@ if ( ! class_exists( 'MedWestHealthPoints_General_Functions', false ) ) :
 			) $charset_collate; ";
 
 			// If table doesn't exist, create table and add initial data to it.
-			$test_name = $wpdb->prefix . 'medwesthealthpoints_activities';
+			$test_name = $wpdb->prefix . 'medwesthealthpoints_activities_submitted';
 			if ( $test_name !== $wpdb->get_var( "SHOW TABLES LIKE '$test_name'" ) ) {
 				dbDelta( $sql_create_table4 );
-				$table_name = $wpdb->prefix . 'medwesthealthpoints_activities';
+				$table_name = $wpdb->prefix . 'medwesthealthpoints_activities_submitted';
 				$wpdb->insert( $table_name, array( 'ID' => 1, ) );
 			}
 
@@ -350,6 +351,27 @@ if ( ! class_exists( 'MedWestHealthPoints_General_Functions', false ) ) :
 			if ( $test_name !== $wpdb->get_var( "SHOW TABLES LIKE '$test_name'" ) ) {
 				dbDelta( $sql_create_table5 );
 				$table_name = $wpdb->prefix . 'medwesthealthpoints_rewardrequests';
+				$wpdb->insert( $table_name, array( 'ID' => 1, ) );
+			}
+
+			$sql_create_table6 = "CREATE TABLE {$wpdb->medwesthealthpoints_activities}
+			(
+				ID bigint(190) auto_increment,
+				activityname varchar(255),
+				activitycategory varchar(255),
+				activityapprovalrequired varchar(255),
+				activitysupportingdocsrequired varchar(255),
+				activitypointsvalue bigint(255),
+
+				PRIMARY KEY  (ID),
+				KEY activityname (activityname)
+			) $charset_collate; ";
+
+			// If table doesn't exist, create table and add initial data to it.
+			$test_name = $wpdb->prefix . 'medwesthealthpoints_activities';
+			if ( $test_name !== $wpdb->get_var( "SHOW TABLES LIKE '$test_name'" ) ) {
+				dbDelta( $sql_create_table6 );
+				$table_name = $wpdb->prefix . 'medwesthealthpoints_activities';
 				$wpdb->insert( $table_name, array( 'ID' => 1, ) );
 			}
 

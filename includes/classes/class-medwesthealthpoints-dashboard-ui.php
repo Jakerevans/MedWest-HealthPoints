@@ -49,10 +49,9 @@ if ( ! class_exists( 'MedWestHealthPoints_Dashboard_UI', false ) ) :
 			if ( $loggedin ) {
 
 				global $wpdb;
-				$currentwpuserid  = get_current_user_id();
-				echo $currentwpuserid;
-				$this->userobject = $wpdb->get_row( 'SELECT * FROM ' . $wpdb->prefix . 'medwesthealthpoints_users WHERE userwpuserid = ' . $currentwpuserid );
-				error_log(var_dump(print_r($this->userobject, true)));
+				$this->currentwpuserid  = get_current_user_id();
+				$this->userobject = $wpdb->get_row( 'SELECT * FROM ' . $wpdb->prefix . 'medwesthealthpoints_users WHERE userwpuserid = ' . $this->currentwpuserid );
+				
 				$this->stitch_final_loggedin_default_dashboard_html();
 			
 
@@ -237,6 +236,66 @@ if ( ! class_exists( 'MedWestHealthPoints_Dashboard_UI', false ) ) :
 		 * Builds the Logged-in Dashboard HTML for defaults...
 		 */
 		public function loggedin_dashboard_html() {
+
+			global $wpdb;
+
+			// Update the last logged in value.
+			$lastloggedin = $this->userobject->userlastlogin;
+			$data         = array(
+				'userlastlogin' => date( 'm/d/Y' ),
+			);
+			$format       = array( '%s' );
+			$where        = array( 'userwpuserid' => $this->currentwpuserid );
+			$where_format = array( '%s' );
+			$wpdb->update( $wpdb->prefix . 'medwesthealthpoints_users', $data, $where, $format, $where_format );
+
+			// Get all available Rewards, determine eligibility.
+			$this->rewardsobject = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->prefix . 'medwesthealthpoints_rewards' );
+			$eligible            = 'Not Quite Yet...';
+			foreach ( $this->rewardsobject as $key => $reward ) {
+				if ( $reward->rewardpointvalue <= $this->userobject->userhealthpoints ) {
+					$eligible = 'Yes! Click to Redeem!';
+					break;
+				}
+			}
+
+			$this->loggedin_dashboard_html_output = '
+				<div id="medwest-loggedin-title-div">
+					<p>Welcome ' . $this->userobject->userfirstname . '!</p>
+				</div>
+				<div id="medwest-loggedin-profile-wrapper">
+					<div class="medwest-loggedin-indiv-profile-piece-wrapper">
+						<div class="medwest-loggedin-indiv-wrapper-actual">
+							<div class="medwest-loggedin-indiv-wrapper-actual-title">Member Since:</div>
+							<div class="medwest-loggedin-indiv-wrapper-actual-data">' . $this->userobject->userjoindate . '</div>
+						</div>
+					</div>
+					<div class="medwest-loggedin-indiv-profile-piece-wrapper">
+						<div class="medwest-loggedin-indiv-wrapper-actual">
+							<div class="medwest-loggedin-indiv-wrapper-actual-title">Last Login:</div>
+							<div class="medwest-loggedin-indiv-wrapper-actual-data">' . $lastloggedin . '</div>
+						</div>
+					</div>
+					<div class="medwest-loggedin-indiv-profile-piece-wrapper">
+						<div class="medwest-loggedin-indiv-wrapper-actual">
+							<div class="medwest-loggedin-indiv-wrapper-actual-title">Total HealthPoints:</div>
+							<div class="medwest-loggedin-indiv-wrapper-actual-data">' . $this->userobject->userhealthpoints . '</div>
+						</div>
+					</div>
+					<div class="medwest-loggedin-indiv-profile-piece-wrapper">
+						<div class="medwest-loggedin-indiv-wrapper-actual">
+							<div class="medwest-loggedin-indiv-wrapper-actual-title">Reward(s) Available?</div>
+							<div class="medwest-loggedin-indiv-wrapper-actual-data">' . $eligible . '</div>
+						</div>
+					</div>
+				</div>
+				<div id="medwest-loggedin-title-div">
+					<p>Activities</p>
+				</div>
+
+
+			';
+
 
 			
 		}

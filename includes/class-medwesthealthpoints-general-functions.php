@@ -320,6 +320,7 @@ if ( ! class_exists( 'MedWestHealthPoints_General_Functions', false ) ) :
 				activitystatus varchar(255),
 				activityapprovalrequired varchar(255),
 				activitysupportingdocsrequired varchar(255),
+				activityemployeeid varchar(255),
 
 				PRIMARY KEY  (ID),
 				KEY activityname (activityname)

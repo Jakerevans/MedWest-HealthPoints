@@ -157,8 +157,8 @@ if ( ! class_exists( 'MedWestHealthPoints_Dashboard_UI', false ) ) :
 											</div>
 										</div>
 										<div class="medwesthealthpoints-form-section-fields-indiv-wrapper-passwordconfirmblock">
-											<label class="whitetailwarriors-form-section-fields-label">Department</label>
-											<select id="medwesthealthpoints-form-vetstate" data-required="true" data-ignore="false" class="whitetailwarriors-form-section-fields-input whitetailwarriors-form-section-fields-input-select" data-dbtype="%s" data-dbname="vetstate">
+											<label class="medwest-form-section-fields-label">Department</label>
+											<select id="medwesthealthpoints-form-vetstate" data-required="true" data-ignore="false" class="medwest-form-section-fields-input medwest-form-section-fields-input-select" data-dbtype="%s" data-dbname="vetstate">
 												<option value="default" selected default disabled>Select A Department...</option>
 												<option>AL</option><option>AK</option><option>AS</option><option>AZ</option><option>AR</option><option>CA</option><option>CO</option><option>CT</option><option>DE</option><option>DC</option><option>FM</option><option>FL</option><option>GA</option><option>GU</option><option>HI</option><option>ID</option><option>IL</option><option>IN</option><option>IA</option><option>KS</option><option>KY</option><option>LA</option><option>ME</option><option>MH</option><option>MD</option><option>MA</option><option>MI</option><option>MN</option><option>MS</option><option>MO</option><option>MT</option><option>NE</option><option>NV</option><option>NH</option><option>NJ</option><option>NM</option><option>NY</option><option>NC</option><option>ND</option><option>MP</option><option>OH</option><option>OK</option><option>OR</option><option>PW</option><option>PA</option><option>PR</option><option>RI</option><option>SC</option><option>SD</option><option>TN</option><option>TX</option><option>UT</option><option>VT</option><option>VI</option><option>VA</option><option>WA</option><option>WV</option><option>WI</option><option>WY</option><option>AE</option><option>AA</option><option>AP</option>
 											</select>
@@ -249,15 +249,160 @@ if ( ! class_exists( 'MedWestHealthPoints_Dashboard_UI', false ) ) :
 			$where_format = array( '%s' );
 			$wpdb->update( $wpdb->prefix . 'medwesthealthpoints_users', $data, $where, $format, $where_format );
 
-			// Get all available Rewards, determine eligibility.
+			// Get all available Rewards, determine eligibility, also build HTML for the Popup.
 			$this->rewardsobject = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->prefix . 'medwesthealthpoints_rewards' );
 			$eligible            = 'Not Quite Yet...';
+			$popup_html = '';
+			$disabled = '';
 			foreach ( $this->rewardsobject as $key => $reward ) {
+
+
+
+
 				if ( $reward->rewardpointvalue <= $this->userobject->userhealthpoints ) {
 					$eligible = 'Yes! Click to Redeem!';
-					break;
+					$disabled = '';
+				} else {
+					$disabled = 'style="pointer-events:none!important; opacity: 0.5!important;"';
+				}
+
+
+				$popup_html = $popup_html . '
+				<div class="medwest-popup-indiv-rewards-wrapper">
+					<div class="medwest-popup-firstrow">
+						<p class="medwest-popup-title"><a href="' . $reward->rewardurl . '">' . $reward->rewardname . '</a></p>
+					</div>
+					<div class="medwest-popup-secondrow">
+						<div class="medwest-popup-reward-image-row">
+							<img src="' . $reward->rewardimage . '" />
+						</div>
+						<div class="medwest-popup-reward-description-row">
+							<p>' . $reward->rewarddescription . '</p>
+						</div>
+						<div class="medwest-popup-reward-redeem-row">
+							<div>' . $reward->rewardpointvalue . ' HealthPoints</div>
+							<button  ' . $disabled . ' class="medwest-popup-reward-redeem-actual">Click to Redeem!</button>
+						</div>
+					</div>
+					<div class="medwest-hidden-request-reward-verify-wrapper">
+						<p>Are you sure? Once you request this reward, there\'s no going back... you\'ll be left with ' . ( $this->userobject->userhealthpoints - $reward->rewardpointvalue ) . ' HealthPoints afterwards, and will be contacted by an Admin with further instructions on how to receive your Reward.</p>
+						<button class="medwest-popup-reward-redeem-actual-verified" data-rewardsrequestdate="' . date("m/d/Y") . '" data-rewardsrequestrewardsname="' . $reward->rewardname . '" data-rewardrequestrewardsid="' . $reward->ID . '" data-rewardrequestwpuserid="' . $this->userobject->userwpuserid . '" data-rewardrequestfirstlastname="' . $this->userobject->userfirstname . ' ' . $this->userobject->userlastname . '">I\'m Sure!</button>
+						<div class="medwesthealthpoints-spinner"></div>
+					</div>
+				</div>';
+
+				
+
+			}
+
+
+
+
+
+
+
+
+
+
+
+
+			// Get all Activities
+			$this->activitiesobject      = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->prefix . 'medwesthealthpoints_activities' );
+			$category_dropdown_wellness  = '<select data-category="wellness" class="medwest-activity-dropdown-actual"><option default>Choose a Wellness Activity...</option>';
+			$category_dropdown_exercise  = '<select data-category="exercise" class="medwest-activity-dropdown-actual"><option default>Choose an Exercise Activity...</option>';
+			$category_dropdown_education = '<select data-category="education" class="medwest-activity-dropdown-actual"><option default>Choose an Education Activity...</option>';
+			$category_dropdown_event     = '<select data-category="event" class="medwest-activity-dropdown-actual"><option default>Choose an Event Activity...</option>';
+
+			// Get all submitted Activities
+			$this->activitiessubmittedobject = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->prefix . 'medwesthealthpoints_activities_submitted WHERE activitywpuserid = ' . $this->currentwpuserid );
+			$category_past_wellness          = '';
+			$category_past_exercise          = '';
+			$category_past_education         = '';
+			$category_past_event             = '';
+
+			foreach ( $this->activitiessubmittedobject as $key => $activity ) {
+				// Build out the Dropdowns and the individual saved Activities entries.
+				switch ( $activity->activitycategory ) {
+					case 'wellness':
+						$category_past_wellness = $category_past_wellness . '
+						<div class="medwest-saved-act-indiv-wrapper">
+							<p class="medwest-saved-act-title">' . $activity->activityname . '</p>
+							<div>
+								<p>Date Performed: ' . $activity->activitydateperformed . '</p>
+								<p>Activity Status: ' . $activity->activitystatus . '</p>
+								<p><a href="https://www.google.com">Click Here To See Supporting Documentation</a></p>
+								<p></p>
+							</div>
+						</div>';
+						break;
+					case 'education':
+						$category_past_education = $category_past_education . '
+						<div class="medwest-saved-act-indiv-wrapper">
+							<p class="medwest-saved-act-title">' . $activity->activityname . '</p>
+							<div>
+								<p>Date Performed: ' . $activity->activitydateperformed . '</p>
+								<p>Activity Status: ' . $activity->activitystatus . '</p>
+								<p><a href="https://www.google.com">Click Here To See Supporting Documentation</a></p>
+								<p></p>
+							</div>
+						</div>';
+						break;
+					case 'exercise':
+						$category_past_exercise = $category_past_exercise . '
+						<div class="medwest-saved-act-indiv-wrapper">
+							<p class="medwest-saved-act-title">' . $activity->activityname . '</p>
+							<div>
+								<p>Date Performed: ' . $activity->activitydateperformed . '</p>
+								<p>Activity Status: ' . $activity->activitystatus . '</p>
+								<p><a href="https://www.google.com">Click Here To See Supporting Documentation</a></p>
+								<p></p>
+							</div>
+						</div>';
+						break;
+					case 'event':
+						$category_past_event = $category_past_event . '
+						<div class="medwest-saved-act-indiv-wrapper">
+							<p class="medwest-saved-act-title">' . $activity->activityname . '</p>
+							<div>
+								<p>Date Performed: ' . $activity->activitydateperformed . '</p>
+								<p>Activity Status: ' . $activity->activitystatus . '</p>
+								<p><a href="https://www.google.com">Click Here To See Supporting Documentation</a></p>
+								<p></p>
+							</div>
+						</div>';
+						break;
+					default:
+						# code...
+						break;
 				}
 			}
+
+
+			foreach ( $this->activitiesobject as $key => $activity ) {
+				// Build out the Dropdowns and the individual saved Activities entries.
+				switch ( $activity->activitycategory ) {
+					case 'wellness':
+						$category_dropdown_wellness = $category_dropdown_wellness . '<option value="' . $activity->activityname . '">' . $activity->activityname . '</option>';
+						break;
+					case 'education':
+						$category_dropdown_education = $category_dropdown_education . '<option value="' . $activity->activityname . '">' . $activity->activityname . '</option>';
+						break;
+					case 'exercise':
+						$category_dropdown_exercise = $category_dropdown_exercise . '<option value="' . $activity->activityname . '">' . $activity->activityname . '</option>';
+						break;
+					case 'event':
+						$category_dropdown_event = $category_dropdown_event . '<option value="' . $activity->activityname . '">' . $activity->activityname . '</option>';
+						break;
+					default:
+						# code...
+						break;
+				}
+			}
+
+			$category_dropdown_wellness  = $category_dropdown_wellness . '</select>';
+			$category_dropdown_exercise  = $category_dropdown_exercise . '</select>';
+			$category_dropdown_education = $category_dropdown_education . '</select>';
+			$category_dropdown_event     = $category_dropdown_event . '</select>';
 
 			$this->loggedin_dashboard_html_output = '
 				<div id="medwest-loggedin-title-div">
@@ -283,7 +428,7 @@ if ( ! class_exists( 'MedWestHealthPoints_Dashboard_UI', false ) ) :
 						</div>
 					</div>
 					<div class="medwest-loggedin-indiv-profile-piece-wrapper">
-						<div class="medwest-loggedin-indiv-wrapper-actual">
+						<div class="medwest-loggedin-indiv-wrapper-actual" id="medwest-loggedin-frontend-colorbox-trigger">
 							<div class="medwest-loggedin-indiv-wrapper-actual-title">Reward(s) Available?</div>
 							<div class="medwest-loggedin-indiv-wrapper-actual-data">' . $eligible . '</div>
 						</div>
@@ -292,7 +437,138 @@ if ( ! class_exists( 'MedWestHealthPoints_Dashboard_UI', false ) ) :
 				<div id="medwest-loggedin-title-div">
 					<p>Activities</p>
 				</div>
+				<div class="medwest-record-view-rows-wrapper">
+					<div class="medwest-record-view-rows">
+						<div class="medwest-loggedin-indiv-profile-piece-wrapper-button" data-category="record-exercise">
+							<div class="medwest-loggedin-indiv-wrapper-actual-button">
+								<div class="medwest-loggedin-indiv-wrapper-actual-data-button">Record Exercise Activity</div>
+							</div>
+						</div>
+						<div class="medwest-loggedin-indiv-profile-piece-wrapper-button" data-category="record-wellness">
+							<div class="medwest-loggedin-indiv-wrapper-actual-button">
+								<div class="medwest-loggedin-indiv-wrapper-actual-data-button">Record Wellness Activity</div>
+							</div>
+						</div>
+						<div class="medwest-loggedin-indiv-profile-piece-wrapper-button" data-category="record-education">
+							<div class="medwest-loggedin-indiv-wrapper-actual-button">
+								<div class="medwest-loggedin-indiv-wrapper-actual-data-button">Record Education Activity</div>
+							</div>
+						</div>
+						<div class="medwest-loggedin-indiv-profile-piece-wrapper-button" data-category="record-event">
+							<div class="medwest-loggedin-indiv-wrapper-actual-button">
+								<div class="medwest-loggedin-indiv-wrapper-actual-data-button">Record Event Activity</div>
+							</div>
+						</div>
+					</div>
+					<div class="medwest-record-view-rows">
+						<div class="medwest-loggedin-indiv-profile-piece-wrapper-button" data-category="view-exercise">
+							<div class="medwest-loggedin-indiv-wrapper-actual-button">
+								<div class="medwest-loggedin-indiv-wrapper-actual-data-button">View Exercise Activity</div>
+							</div>
+						</div>
+						<div class="medwest-loggedin-indiv-profile-piece-wrapper-button" data-category="view-wellness">
+							<div class="medwest-loggedin-indiv-wrapper-actual-button">
+								<div class="medwest-loggedin-indiv-wrapper-actual-data-button">View Wellness Activity</div>
+							</div>
+						</div>
+						<div class="medwest-loggedin-indiv-profile-piece-wrapper-button" data-category="view-education">
+							<div class="medwest-loggedin-indiv-wrapper-actual-button">
+								<div class="medwest-loggedin-indiv-wrapper-actual-data-button">View Education Activity</div>
+							</div>
+						</div>
+						<div class="medwest-loggedin-indiv-profile-piece-wrapper-button" data-category="view-event">
+							<div class="medwest-loggedin-indiv-wrapper-actual-button">
+								<div class="medwest-loggedin-indiv-wrapper-actual-data-button">View Event Activity</div>
+							</div>
+						</div>
+					</div>
+					<div id="medwest-hidden-rewards-html-popup" style="display: none;">' . $popup_html . '</div>
+					<div class="medwest-record-view-rows-actual">
+						<div style="display: none;">
+							<div id="medwest-dropdown-wellness">' . $category_dropdown_wellness . '</div>
+							<div id="medwest-dropdown-exercise">' . $category_dropdown_exercise . '</div>
+							<div id="medwest-dropdown-education">' . $category_dropdown_education . '</div>
+							<div id="medwest-dropdown-event">' . $category_dropdown_event . '</div>
+						</div>
 
+
+<div class="medwest-saved-activities-top-wrapper" id="medwest-saved-activities-top-wrapper-wellness" data-activity="exercise">
+	<div id="medwest-loggedin-title-div">
+		<p id="medwest-dynamic-record-view-activity-title">View Your Saved Wellness Activities Below</p>
+	</div>
+	<div class="medwest-saved-activities-all-wrapper">
+	' . $category_past_wellness . '
+	</div>
+</div>
+
+<div class="medwest-saved-activities-top-wrapper" id="medwest-saved-activities-top-wrapper-exercise" data-activity="exercise">
+	<div id="medwest-loggedin-title-div">
+		<p id="medwest-dynamic-record-view-activity-title">View Your Saved Exercise Activities Below</p>
+	</div>
+	<div class="medwest-saved-activities-all-wrapper">
+	' . $category_past_exercise . '
+	</div>
+</div>
+
+<div class="medwest-saved-activities-top-wrapper" id="medwest-saved-activities-top-wrapper-education" data-activity="exercise">
+	<div id="medwest-loggedin-title-div">
+		<p id="medwest-dynamic-record-view-activity-title">View Your Saved Education Activities Below</p>
+	</div>
+	<div class="medwest-saved-activities-all-wrapper">
+	' . $category_past_education . '
+	</div>
+</div>
+
+<div class="medwest-saved-activities-top-wrapper" id="medwest-saved-activities-top-wrapper-event" data-activity="exercise">
+	<div id="medwest-loggedin-title-div">
+		<p id="medwest-dynamic-record-view-activity-title">View Your Saved Event Activities Below</p>
+	</div>
+	<div class="medwest-saved-activities-all-wrapper">
+	' . $category_past_event . '
+	</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+						<div id="medwest-record-view-rows-actual-form-wrapper">
+							<div id="medwest-loggedin-title-div">
+								<p id="medwest-dynamic-record-view-activity-title">Record Your Activity</p>
+							</div>
+							<div id="medwest-record-view-rows-actual-fields-wrapper">
+								<div id="medwest-dynamic-record-view-activity-dropdown">' . $category_dropdown_wellness . '</div>
+								<div class="medwest-fields-organizer">
+									<label>Date Activity Was Performed:</label>
+									<input id="medwest-date-performed-input" type="date"/>
+								</div>
+								<div class="medwest-fields-organizer">
+									<label class="medwest-form-section-fields-label" style="color: black;">Supporting Documentation:</label>
+									<input data-ignore="false" data-required="true" data-dbtype="%s" data-dbname="vetdd214" class="medwest-form-section-fields-input medwest-form-section-fields-input-text" id="medwest-form-vetdd214-0" type="text" value="' . $this->userveteranobject->vetdd214 . '">
+									<button class="medwest-form-section-fields-input medwest-form-section-fields-input-button medwest-form-section-fields-input-file-upload-button" id="medwest-form-button-vetdd214-0" data-dbtype="%s" data-dbname="vetdd214-button">Choose File</button>
+								</div>
+							</div>
+							<button data-activityemployeeid="' . $this->userobject->useridnumber . '" data-wpuserid="' . $this->currentwpuserid . '" id="medwest-submit-activity-submissions-button">Submit Activity!</button>
+						</div>
+					</div>
+				</div>
 
 			';
 

@@ -31,7 +31,7 @@
 	margin-bottom: 10px;
 }
 
-#medwesthealthpoints-dashboard-login-row-wrapper .login-username label, #medwesthealthpoints-dashboard-login-row-wrapper .login-password label, .whitetailwarriors-form-section-fields-label{
+#medwesthealthpoints-dashboard-login-row-wrapper .login-username label, #medwesthealthpoints-dashboard-login-row-wrapper .login-password label, .medwest-form-section-fields-label{
 	width:120px;
 	display: inline-block;
 	margin-right:5px;
@@ -101,4 +101,139 @@
 
 #medwest-loggedin-title-div, .medwest-loggedin-indiv-wrapper-actual-title{
 	font-weight:bold;
+}
+
+.medwest-record-view-rows{
+	display: flex;
+}
+
+.medwest-loggedin-indiv-profile-piece-wrapper-button{
+	flex: 1;
+    background-color: #1f9693;
+    padding: 20px;
+    color: white;
+    text-align: center;
+    cursor: pointer;
+    margin: 20px;
+}
+
+#medwest-form-button-vetdd214-0, #medwest-submit-activity-submissions-button{
+    background-color: #1f9693;
+    color: white;
+    cursor: pointer;
+    border-radius: 0;
+}
+
+#medwest-submit-activity-submissions-button{
+	margin-top:20px;
+}
+
+.medwest-record-view-rows-wrapper{
+	text-align:center;
+}
+
+.medwest-fields-organizer, .medwest-fields-organizer label{
+	display: block;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    margin-top: 40px;
+}
+
+.media-frame-title {
+    position: absolute;
+    top: -50px!important;
+}
+
+#medwest-record-view-rows-actual-form-wrapper{
+	height: 0px;
+    overflow: hidden;
+    opacity: 0;
+}
+
+.medwest-saved-act-indiv-wrapper{
+	border: solid 1px #eee;
+    padding: 10px;
+    margin-bottom: 20px;
+    background-color: rgba(84, 191, 194, 0.3);
+}
+
+.medwest-saved-act-indiv-wrapper p{
+	margin:0;
+	text-align: left;
+}
+
+.medwest-saved-activities-all-wrapper .medwest-saved-act-indiv-wrapper p a{
+	text-decoration: none;
+}
+
+.medwest-saved-act-indiv-wrapper div{
+	margin-left:10px;
+}
+
+.medwest-saved-act-title{
+	font-weight:bold;
+	text-decoration: underline;
+}
+
+.medwest-saved-activities-top-wrapper{
+	height:0px;
+	opacity:0;
+	overflow: hidden;
+}
+
+#medwest-loggedin-frontend-colorbox-trigger{
+	cursor: pointer;
+}
+
+.medwest-popup-secondrow{
+	display: flex;
+}
+
+.medwest-popup-reward-image-row{
+	flex: 1;
+}
+
+.medwest-popup-reward-description-row{
+	flex: 3;
+	text-align: center;
+}
+
+.medwest-popup-reward-description-row p{
+	margin:0px;
+}
+
+.medwest-popup-reward-redeem-row{
+	flex: 1;
+	text-align: center;
+}
+
+.medwest-popup-reward-redeem-row div{
+	font-style:italic;
+}
+
+.medwest-popup-reward-image-row img{
+	width: 60px;
+}
+
+.medwest-popup-indiv-rewards-wrapper{
+	padding: 20px;
+	border: solid 1px black;
+    margin: 20px;
+}
+
+.medwest-popup-title{
+	text-decoration: underline;
+    text-transform: uppercase;
+}
+
+.medwest-hidden-request-reward-verify-wrapper{
+	text-align:center;
+}
+
+.medwest-hidden-request-reward-verify-wrapper{
+	height: 0px;
+	overflow: hidden;
+	opacity:0;
 }

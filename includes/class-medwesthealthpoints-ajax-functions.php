@@ -120,6 +120,89 @@ if ( ! class_exists( 'MedWestHealthPoints_Ajax_Functions', false ) ) :
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		public function medwesthealthpoints_save_activity_user_action_callback() {
+			error_log('fdsfdgfgfdgfdsa');
+
+			global $wpdb;
+			//check_ajax_referer( 'mmedwesthealthpoints_save_activity_user_action', 'security' );
+
+			$activityname           = '';
+			$activitycategory       = '';
+			$activitydateperformed  = '';
+			$activitysupportingdocs = '';
+			$activitywpuserid       = '';
+			$activityemployeeid     = '';
+
+			if ( isset( $_POST['activityname'] ) ) {
+				$activityname = filter_var( wp_unslash( $_POST['activityname'] ), FILTER_SANITIZE_STRING );
+			}
+
+			if ( isset( $_POST['activitycategory'] ) ) {
+				$activitycategory = filter_var( wp_unslash( $_POST['activitycategory'] ), FILTER_SANITIZE_STRING );
+			}
+
+			if ( isset( $_POST['activitydateperformed'] ) ) {
+				$activitydateperformed = filter_var( wp_unslash( $_POST['activitydateperformed'] ), FILTER_SANITIZE_STRING );
+			}
+
+			if ( isset( $_POST['activitysupportingdocs'] ) ) {
+				$activitysupportingdocs = filter_var( wp_unslash( $_POST['activitysupportingdocs'] ), FILTER_SANITIZE_STRING );
+			}
+
+			if ( isset( $_POST['activitywpuserid'] ) ) {
+				$activitywpuserid = filter_var( wp_unslash( $_POST['activitywpuserid'] ), FILTER_SANITIZE_STRING );
+			}
+
+			if ( isset( $_POST['activityemployeeid'] ) ) {
+				$activityemployeeid = filter_var( wp_unslash( $_POST['activityemployeeid'] ), FILTER_SANITIZE_STRING );
+			}
+
+
+			// Now add the user to the custom table.
+			$activitiessubmitted_table_array = array(
+				'activityname'           => $activityname,
+				'activitycategory'       => $activitycategory,
+				'activitydateperformed'  => $activitydateperformed,
+				'activitysupportingdocs' => $activitysupportingdocs,
+				'activitywpuserid'       => $activitywpuserid,
+				'activityemployeeid'     => $activityemployeeid,
+				'activitystatus'         => 'pending',
+			);
+
+			$activitiessubmitted_table_dbtype_array = array(
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%d',
+				'%s',
+				'%s',
+			);
+
+			$activitiessubmitted_table_result = $wpdb->insert( $wpdb->prefix . 'medwesthealthpoints_activities_submitted', $activitiessubmitted_table_array, $activitiessubmitted_table_dbtype_array );
+			$activitiessubmitted_id           = $wpdb->insert_id;
+			wp_die( $activitiessubmitted_id );
+
+		}
+
+
+
 	}
 endif;
 

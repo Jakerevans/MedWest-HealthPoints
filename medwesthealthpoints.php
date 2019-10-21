@@ -141,6 +141,10 @@ global $wpdb;
 	define( 'MEDWESTHEALTHPOINTS_NONCES_ARRAY',
 		wp_json_encode(array(
 			'adminnonce1' => 'medwesthealthpoints_register_new_user_action_callback',
+			'adminnonce2' => 'medwesthealthpoints_save_activity_user_action_callback',
+
+
+		
 		))
 	);
 
@@ -214,6 +218,9 @@ global $wpdb;
 /* FUNCTIONS FOUND IN CLASS-WPPLUGIN-AJAX-FUNCTIONS.PHP THAT APPLY PLUGIN-WIDE */
 	add_action( 'wp_ajax_medwesthealthpoints_register_new_user_action', array( $medwesthealthpoints_ajax_functions, 'medwesthealthpoints_register_new_user_action_callback' ) );
 	add_action( 'wp_ajax_nopriv_medwesthealthpoints_register_new_user_action', array( $medwesthealthpoints_ajax_functions, 'medwesthealthpoints_register_new_user_action_callback' ) );
+
+	add_action( 'wp_ajax_medwesthealthpoints_save_activity_user_action', array( $medwesthealthpoints_ajax_functions, 'medwesthealthpoints_save_activity_user_action_callback' ) );
+	add_action( 'wp_ajax_nopriv_medwesthealthpoints_save_activity_user_action', array( $medwesthealthpoints_ajax_functions, 'medwesthealthpoints_save_activity_user_action_callback' ) );
 
 
 

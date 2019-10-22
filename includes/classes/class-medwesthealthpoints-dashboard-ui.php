@@ -262,8 +262,10 @@ if ( ! class_exists( 'MedWestHealthPoints_Dashboard_UI', false ) ) :
 				if ( $reward->rewardpointvalue <= $this->userobject->userhealthpoints ) {
 					$eligible = 'Yes! Click to Redeem!';
 					$disabled = '';
+					$leftwith = $this->userobject->userhealthpoints - $reward->rewardpointvalue;
 				} else {
 					$disabled = 'style="pointer-events:none!important; opacity: 0.5!important;"';
+					$leftwith = '';
 				}
 
 
@@ -286,7 +288,7 @@ if ( ! class_exists( 'MedWestHealthPoints_Dashboard_UI', false ) ) :
 					</div>
 					<div class="medwest-hidden-request-reward-verify-wrapper">
 						<p>Are you sure? Once you request this reward, there\'s no going back... you\'ll be left with ' . ( $this->userobject->userhealthpoints - $reward->rewardpointvalue ) . ' HealthPoints afterwards, and will be contacted by an Admin with further instructions on how to receive your Reward.</p>
-						<button class="medwest-popup-reward-redeem-actual-verified" data-rewardsrequestdate="' . date("m/d/Y") . '" data-rewardsrequestrewardsname="' . $reward->rewardname . '" data-rewardrequestrewardsid="' . $reward->ID . '" data-rewardrequestwpuserid="' . $this->userobject->userwpuserid . '" data-rewardrequestfirstlastname="' . $this->userobject->userfirstname . ' ' . $this->userobject->userlastname . '">I\'m Sure!</button>
+						<button class="medwest-popup-reward-redeem-actual-verified" data-rewardsrequestdate="' . date("m/d/Y") . '" data-rewardsrequestrewardsname="' . $reward->rewardname . '" data-rewardrequestrewardsid="' . $reward->ID . '" data-rewardrequestwpuserid="' . $this->userobject->userwpuserid . '" data-rewardrequestfirstlastname="' . $this->userobject->userfirstname . ' ' . $this->userobject->userlastname . '" data-rewardrequestemployeeid=' . $this->userobject->useridnumber . ' data-leftwith="' . $leftwith . '">I\'m Sure!</button>
 						<div class="medwesthealthpoints-spinner"></div>
 					</div>
 				</div>';

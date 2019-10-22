@@ -343,6 +343,7 @@ if ( ! class_exists( 'MedWestHealthPoints_General_Functions', false ) ) :
 				rewardrequestrewardsname varchar(255),
 				rewardrequestdate varchar(255),
 				rewardrequeststatus varchar(255),
+				rewardrequestemployeeid varchar(255),
 				PRIMARY KEY  (ID),
 				KEY rewardrequestwpuserid (rewardrequestwpuserid)
 			) $charset_collate; ";
@@ -388,6 +389,44 @@ if ( ! class_exists( 'MedWestHealthPoints_General_Functions', false ) ) :
 			$front_end_ui = new MedWestHealthPoints_Dashboard_UI();
 			return ob_get_clean();
 
+		}
+
+		/**
+		 *  Function that logs in a user automatically after they've first registered.
+		 */
+		public function medwesthealthpoints_hideadminbar_for_subs() {
+			if ( ! current_user_can( 'manage_options' ) ) {
+				add_filter('show_admin_bar', 'false');
+			}
+		}
+
+		/**
+		 *  Function that prevents admin access for Subscribers.
+		 */
+		public function medwesthealthpoints_blockadminaccess_for_subs() {
+			 if( is_admin() && !defined('DOING_AJAX') && ( current_user_can('subscriber') || current_user_can('contributor') ) ){
+			    wp_redirect(home_url());
+			    exit;
+			  }
+		}
+
+		/**
+		 *  Function that allows Subscribers to upload documents.
+		 */
+		public function medwesthealthpoints_allow_uploads_for_subs() {
+			$contributor = get_role( 'subscriber' );
+			$contributor->add_cap('upload_files');
+		}
+
+		/**
+		 *  Function that allows Subscribers to see only their uploaded docs.
+		 */
+		public function medwesthealthpoints_show_current_user_attachments( $query ) {
+			$user_id = get_current_user_id();
+			if ( $user_id && !current_user_can('activate_plugins') && !current_user_can('edit_others_posts') ) {
+				$query[ 'author' ] = $user_id;
+			}
+			return $query;
 		}
 
 	}

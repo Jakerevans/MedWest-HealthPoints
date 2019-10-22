@@ -142,6 +142,7 @@ global $wpdb;
 		wp_json_encode(array(
 			'adminnonce1' => 'medwesthealthpoints_register_new_user_action_callback',
 			'adminnonce2' => 'medwesthealthpoints_save_activity_user_action_callback',
+			'adminnonce3' => 'medwesthealthpoints_request_reward_user_action_callback',
 
 
 		
@@ -211,6 +212,19 @@ global $wpdb;
 	// Adding the front-end login / dashboard shortcode.
 	add_shortcode( 'medwesthealthpoints_login_shortcode', array( $medwesthealthpoints_general_functions, 'medwesthealthpoints_login_shortcode_function' ) );
 
+	// Function that logs in a user automatically after they've first registered.
+	add_action( 'wp_head', array( $medwesthealthpoints_general_functions, 'medwesthealthpoints_hideadminbar_for_subs' ) );
+
+	// Function that prevents admin access for Subscribers.
+	add_action( 'init', array( $medwesthealthpoints_general_functions, 'medwesthealthpoints_blockadminaccess_for_subs' ) );
+
+	// Function that prevents admin access for Subscribers.
+	add_action( 'admin_init', array( $medwesthealthpoints_general_functions, 'medwesthealthpoints_allow_uploads_for_subs' ) );
+
+	// Function that allows Subscribers to see only their uploaded docs.
+	add_action( 'ajax_query_attachments_args', array( $medwesthealthpoints_general_functions, 'medwesthealthpoints_show_current_user_attachments' ) );
+
+
 
 
 /* END OF FUNCTIONS FOUND IN CLASS-WPPLUGIN-GENERAL-FUNCTIONS.PHP THAT APPLY PLUGIN-WIDE */
@@ -221,6 +235,9 @@ global $wpdb;
 
 	add_action( 'wp_ajax_medwesthealthpoints_save_activity_user_action', array( $medwesthealthpoints_ajax_functions, 'medwesthealthpoints_save_activity_user_action_callback' ) );
 	add_action( 'wp_ajax_nopriv_medwesthealthpoints_save_activity_user_action', array( $medwesthealthpoints_ajax_functions, 'medwesthealthpoints_save_activity_user_action_callback' ) );
+
+	add_action( 'wp_ajax_medwesthealthpoints_request_reward_user_action', array( $medwesthealthpoints_ajax_functions, 'medwesthealthpoints_request_reward_user_action_callback' ) );
+	add_action( 'wp_ajax_nopriv_medwesthealthpoints_request_reward_user_action', array( $medwesthealthpoints_ajax_functions, 'medwesthealthpoints_request_reward_user_action_callback' ) );
 
 
 

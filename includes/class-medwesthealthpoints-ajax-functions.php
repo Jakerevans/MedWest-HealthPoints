@@ -140,7 +140,7 @@ if ( ! class_exists( 'MedWestHealthPoints_Ajax_Functions', false ) ) :
 			error_log('fdsfdgfgfdgfdsa');
 
 			global $wpdb;
-			//check_ajax_referer( 'mmedwesthealthpoints_save_activity_user_action', 'security' );
+			//check_ajax_referer( 'medwesthealthpoints_save_activity_user_action', 'security' );
 
 			$activityname           = '';
 			$activitycategory       = '';
@@ -197,6 +197,97 @@ if ( ! class_exists( 'MedWestHealthPoints_Ajax_Functions', false ) ) :
 
 			$activitiessubmitted_table_result = $wpdb->insert( $wpdb->prefix . 'medwesthealthpoints_activities_submitted', $activitiessubmitted_table_array, $activitiessubmitted_table_dbtype_array );
 			$activitiessubmitted_id           = $wpdb->insert_id;
+			wp_die( $activitiessubmitted_id );
+
+		}
+
+
+
+
+
+
+		public function medwesthealthpoints_request_reward_user_action_callback() {
+			error_log('sssssssa');
+
+			global $wpdb;
+			check_ajax_referer( 'medwesthealthpoints_request_reward_user_action_callback', 'security' );
+
+			$rewardrequestwpuserid      = '';
+			$rewardrequestfirstlastname = '';
+			$rewardrequestrewardsname   = '';
+			$rewardrequestdate          = '';
+			$rewardrequeststatus        = '';
+			$rewardrequestemployeeid    = '';
+			$rewardrequestrewardsid     = '';
+
+			if ( isset( $_POST['rewardrequestwpuserid'] ) ) {
+				$rewardrequestwpuserid = filter_var( wp_unslash( $_POST['rewardrequestwpuserid'] ), FILTER_SANITIZE_STRING );
+			}
+
+			if ( isset( $_POST['rewardrequestfirstlastname'] ) ) {
+				$rewardrequestfirstlastname = filter_var( wp_unslash( $_POST['rewardrequestfirstlastname'] ), FILTER_SANITIZE_STRING );
+			}
+
+			if ( isset( $_POST['rewardrequestrewardsname'] ) ) {
+				$rewardrequestrewardsname = filter_var( wp_unslash( $_POST['rewardrequestrewardsname'] ), FILTER_SANITIZE_STRING );
+			}
+
+			if ( isset( $_POST['rewardrequestdate'] ) ) {
+				$rewardrequestdate = filter_var( wp_unslash( $_POST['rewardrequestdate'] ), FILTER_SANITIZE_STRING );
+			}
+
+			if ( isset( $_POST['rewardrequeststatus'] ) ) {
+				$rewardrequeststatus = filter_var( wp_unslash( $_POST['rewardrequeststatus'] ), FILTER_SANITIZE_STRING );
+			}
+
+			if ( isset( $_POST['rewardrequestemployeeid'] ) ) {
+				$rewardrequestemployeeid = filter_var( wp_unslash( $_POST['rewardrequestemployeeid'] ), FILTER_SANITIZE_STRING );
+			}
+
+			if ( isset( $_POST['rewardrequestrewardsid'] ) ) {
+				$rewardrequestrewardsid = filter_var( wp_unslash( $_POST['rewardrequestrewardsid'] ), FILTER_SANITIZE_STRING );
+			}
+
+			if ( isset( $_POST['leftwith'] ) ) {
+				$leftwith = filter_var( wp_unslash( $_POST['leftwith'] ), FILTER_SANITIZE_STRING );
+			}
+
+
+			// Now add the user to the custom table.
+			$activitiessubmitted_table_array = array(
+				'rewardrequestwpuserid'      => $rewardrequestwpuserid,
+				'rewardrequestrewardsid'     => $rewardrequestrewardsid,
+				'rewardrequestfirstlastname' => $rewardrequestfirstlastname,
+				'rewardrequestrewardsname'   => $rewardrequestrewardsname,
+				'rewardrequestdate'          => $rewardrequestdate,
+				'rewardrequeststatus'        => $rewardrequeststatus,
+				'rewardrequestemployeeid'    => $rewardrequestemployeeid,
+				'rewardrequeststatus'        => 'pending',
+			);
+
+			$activitiessubmitted_table_dbtype_array = array(
+				'%d',
+				'%d',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+			);
+
+			$activitiessubmitted_table_result = $wpdb->insert( $wpdb->prefix . 'medwesthealthpoints_rewardrequests', $activitiessubmitted_table_array, $activitiessubmitted_table_dbtype_array );
+			$activitiessubmitted_id           = $wpdb->insert_id;
+
+			// Now deduct points from the user's points pool.
+			$data         = array(
+				'userhealthpoints' => $leftwith,
+			);
+			$format       = array( '%d' );
+			$where        = array( 'useridnumber' => $rewardrequestemployeeid );
+			$where_format = array( '%d' );
+			$wpdb->update( $wpdb->prefix . 'medwesthealthpoints_users', $data, $where, $format, $where_format );
+
 			wp_die( $activitiessubmitted_id );
 
 		}

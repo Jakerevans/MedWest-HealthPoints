@@ -492,65 +492,41 @@ if ( ! class_exists( 'MedWestHealthPoints_Dashboard_UI', false ) ) :
 							<div id="medwest-dropdown-education">' . $category_dropdown_education . '</div>
 							<div id="medwest-dropdown-event">' . $category_dropdown_event . '</div>
 						</div>
+						<div class="medwest-saved-activities-top-wrapper" id="medwest-saved-activities-top-wrapper-wellness" data-activity="exercise">
+							<div id="medwest-loggedin-title-div">
+								<p id="medwest-dynamic-record-view-activity-title">View Your Saved Wellness Activities Below</p>
+							</div>
+							<div class="medwest-saved-activities-all-wrapper">
+							' . $category_past_wellness . '
+							</div>
+						</div>
 
+						<div class="medwest-saved-activities-top-wrapper" id="medwest-saved-activities-top-wrapper-exercise" data-activity="exercise">
+							<div id="medwest-loggedin-title-div">
+								<p id="medwest-dynamic-record-view-activity-title">View Your Saved Exercise Activities Below</p>
+							</div>
+							<div class="medwest-saved-activities-all-wrapper">
+							' . $category_past_exercise . '
+							</div>
+						</div>
 
-<div class="medwest-saved-activities-top-wrapper" id="medwest-saved-activities-top-wrapper-wellness" data-activity="exercise">
-	<div id="medwest-loggedin-title-div">
-		<p id="medwest-dynamic-record-view-activity-title">View Your Saved Wellness Activities Below</p>
-	</div>
-	<div class="medwest-saved-activities-all-wrapper">
-	' . $category_past_wellness . '
-	</div>
-</div>
+						<div class="medwest-saved-activities-top-wrapper" id="medwest-saved-activities-top-wrapper-education" data-activity="exercise">
+							<div id="medwest-loggedin-title-div">
+								<p id="medwest-dynamic-record-view-activity-title">View Your Saved Education Activities Below</p>
+							</div>
+							<div class="medwest-saved-activities-all-wrapper">
+							' . $category_past_education . '
+							</div>
+						</div>
 
-<div class="medwest-saved-activities-top-wrapper" id="medwest-saved-activities-top-wrapper-exercise" data-activity="exercise">
-	<div id="medwest-loggedin-title-div">
-		<p id="medwest-dynamic-record-view-activity-title">View Your Saved Exercise Activities Below</p>
-	</div>
-	<div class="medwest-saved-activities-all-wrapper">
-	' . $category_past_exercise . '
-	</div>
-</div>
-
-<div class="medwest-saved-activities-top-wrapper" id="medwest-saved-activities-top-wrapper-education" data-activity="exercise">
-	<div id="medwest-loggedin-title-div">
-		<p id="medwest-dynamic-record-view-activity-title">View Your Saved Education Activities Below</p>
-	</div>
-	<div class="medwest-saved-activities-all-wrapper">
-	' . $category_past_education . '
-	</div>
-</div>
-
-<div class="medwest-saved-activities-top-wrapper" id="medwest-saved-activities-top-wrapper-event" data-activity="exercise">
-	<div id="medwest-loggedin-title-div">
-		<p id="medwest-dynamic-record-view-activity-title">View Your Saved Event Activities Below</p>
-	</div>
-	<div class="medwest-saved-activities-all-wrapper">
-	' . $category_past_event . '
-	</div>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+						<div class="medwest-saved-activities-top-wrapper" id="medwest-saved-activities-top-wrapper-event" data-activity="exercise">
+							<div id="medwest-loggedin-title-div">
+								<p id="medwest-dynamic-record-view-activity-title">View Your Saved Event Activities Below</p>
+							</div>
+							<div class="medwest-saved-activities-all-wrapper">
+							' . $category_past_event . '
+							</div>
+						</div>
 						<div id="medwest-record-view-rows-actual-form-wrapper">
 							<div id="medwest-loggedin-title-div">
 								<p id="medwest-dynamic-record-view-activity-title">Record Your Activity</p>

@@ -131,6 +131,9 @@ if ( ! class_exists( 'MedWestHealthPoints_General_Functions', false ) ) :
 			$final_array_of_php_values['SETTINGS_PAGE_URL'] = menu_page_url( 'WPBookList-Options-settings', false );
 			$final_array_of_php_values['DB_PREFIX'] = $wpdb->prefix;
 
+			// Now grab all of our Nonces to pass to the JavaScript for the Ajax functions and merge with the Translations array.
+			$final_array_of_php_values = array_merge( $final_array_of_php_values, json_decode( MEDWEST_FINAL_NONCES_ARRAY, true ) );
+
 
 			// Now registering/localizing our JavaScript file, passing all the PHP variables we'll need in our $final_array_of_php_values array, to be accessed from 'wpbooklist_php_variables' object (like wpbooklist_php_variables.nameofkey, like any other JavaScript object).
 			wp_localize_script( 'medwesthealthpoints_adminjs', 'medwestHealthpointsPhpVariables', $final_array_of_php_values );

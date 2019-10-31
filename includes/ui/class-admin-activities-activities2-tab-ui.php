@@ -39,8 +39,8 @@ if ( ! class_exists( 'MedWesthealthpoints_Settings_Settings2_Tab', false ) ) :
 		 * Opens the admin container for the tab
 		 */
 		private function output_open_admin_container() {
-			$title    = 'Settings 2';
-			$icon_url = MEDWESTHEALTHPOINTS_ROOT_IMG_URL . 'settings.svg';
+			$title    = 'Create Activities';
+			$icon_url = MEDWESTHEALTHPOINTS_ROOT_IMG_URL . 'new.svg';
 
 			echo $this->template->output_open_admin_container( $title, $icon_url );
 

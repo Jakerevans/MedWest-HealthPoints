@@ -76,7 +76,7 @@
     border-left: 1px solid #fff;
     border-right: 1px solid #fff;
     border-bottom: 1px solid #fff;
-    border-top: 1px solid #F05A1A;
+    border-top: 1px solid #009693;
     border-radius: 100%;
     position: relative;
 }
@@ -229,11 +229,11 @@
 }
 
 .medwest-hidden-request-reward-verify-wrapper{
-	text-align:center;
-}
-
-.medwest-hidden-request-reward-verify-wrapper{
 	height: 0px;
 	overflow: hidden;
 	opacity:0;
+	text-align: center;
+	margin-top: 20px;
 }
+
+@keyframes rotation{0%{transform:rotate(0)}100%{transform:rotate(359deg)}}

@@ -33,12 +33,13 @@ if ( ! class_exists( 'MedWestHealthPoints_Ajax_Functions', false ) ) :
 			global $wpdb;
 			//check_ajax_referer( 'medwesthealthpoints_register_new_user_action', 'security' );
 
-			$userfirstname  = '';
-			$userlastname   = '';
-			$useremail      = '';
-			$userpassword   = '';
-			$userdepartment = '';
-			$useridnumber   = '';
+			$userfirstname    = '';
+			$userlastname     = '';
+			$useremail        = '';
+			$userpassword     = '';
+			$userdepartment   = '';
+			$useridnumber     = '';
+			$userhealthpoints = '';
 
 			if ( isset( $_POST['userfirstname'] ) ) {
 				$userfirstname = filter_var( wp_unslash( $_POST['userfirstname'] ), FILTER_SANITIZE_STRING );
@@ -62,6 +63,12 @@ if ( ! class_exists( 'MedWestHealthPoints_Ajax_Functions', false ) ) :
 
 			if ( isset( $_POST['useridnumber'] ) ) {
 				$useridnumber = filter_var( wp_unslash( $_POST['useridnumber'] ), FILTER_SANITIZE_STRING );
+			}
+
+			if ( isset( $_POST['userhealthpoints'] ) ) {
+				$userhealthpoints = filter_var( wp_unslash( $_POST['userhealthpoints'] ), FILTER_SANITIZE_NUMBER_INT );
+			} else {
+				$userhealthpoints = 0;
 			}
 
 
@@ -93,7 +100,7 @@ if ( ! class_exists( 'MedWestHealthPoints_Ajax_Functions', false ) ) :
 						'userwpuserid'     => $user_id,
 						'userdepartment'   => $userdepartment,
 						'useridnumber'     => $useridnumber,
-						'userhealthpoints' => 0,
+						'userhealthpoints' => $userhealthpoints,
 						'userlastlogin'    => date("m/d/Y"),
 						'useremail'        => $useremail,
 					);
@@ -108,6 +115,7 @@ if ( ! class_exists( 'MedWestHealthPoints_Ajax_Functions', false ) ) :
 						'%d',
 						'%s',
 						'%s',
+						'%d',
 					);
 
 					$users_table_result = $wpdb->insert( $wpdb->prefix . 'medwesthealthpoints_users', $user_table_array, $user_table_dbtype_array );
@@ -330,6 +338,30 @@ if ( ! class_exists( 'MedWestHealthPoints_Ajax_Functions', false ) ) :
 
 		}
 
+		public function medwesthealthpoints_approve_rewards_user_action_callback() {
+
+			global $wpdb;
+			check_ajax_referer( 'medwesthealthpoints_approve_rewards_user_action_callback', 'security' );
+
+			$rewardrequestid = '';
+
+			if ( isset( $_POST['rewardrequestid'] ) ) {
+				$rewardrequestid = filter_var( wp_unslash( $_POST['rewardrequestid'] ), FILTER_SANITIZE_STRING );
+			}
+
+			// Now add points to the user's points pool.
+			$data         = array(
+				'rewardrequeststatus' => 'Approved',
+			);
+			$format       = array( '%s' );
+			$where        = array( 'ID' => $rewardrequestid );
+			$where_format = array( '%d' );
+			$wpdb->update( $wpdb->prefix . 'medwesthealthpoints_rewardrequests', $data, $where, $format, $where_format );
+
+			wp_die();
+
+		}
+
 
 
 		public function medwesthealthpoints_deny_activities_user_action_callback() {
@@ -337,13 +369,48 @@ if ( ! class_exists( 'MedWestHealthPoints_Ajax_Functions', false ) ) :
 			global $wpdb;
 			check_ajax_referer( 'medwesthealthpoints_deny_activities_user_action_callback', 'security' );
 
-			$activityid       = '';
+			$activityid = '';
 
 			if ( isset( $_POST['activityid'] ) ) {
 				$activityid = filter_var( wp_unslash( $_POST['activityid'] ), FILTER_SANITIZE_STRING );
 			}
 
 			$wpdb->delete( $wpdb->prefix . 'medwesthealthpoints_activities_submitted', array( 'ID' => $activityid ), array( '%d' ) );
+
+			wp_die();
+
+		}
+
+		public function medwesthealthpoints_deny_rewards_user_action_callback() {
+
+			global $wpdb;
+			check_ajax_referer( 'medwesthealthpoints_deny_rewards_user_action_callback', 'security' );
+
+			$activityid = '';
+
+			if ( isset( $_POST['useridnumber'] ) ) {
+				$useridnumber = filter_var( wp_unslash( $_POST['useridnumber'] ), FILTER_SANITIZE_NUMBER_INT );
+			}
+
+			if ( isset( $_POST['userhealthpoints'] ) ) {
+				$userhealthpoints = filter_var( wp_unslash( $_POST['userhealthpoints'] ), FILTER_SANITIZE_NUMBER_INT );
+			}
+
+			if ( isset( $_POST['rewardrequestid'] ) ) {
+				$rewardrequestid = filter_var( wp_unslash( $_POST['rewardrequestid'] ), FILTER_SANITIZE_NUMBER_INT );
+			}
+
+			$wpdb->delete( $wpdb->prefix . 'medwesthealthpoints_rewardrequests', array( 'ID' => $rewardrequestid ), array( '%d' ) );
+
+
+			// NOW GIVE THE USER THEIR POINTS BACK.
+			$data = array(
+				'userhealthpoints'  => $userhealthpoints,
+			);
+			$format       = array( '%d', );
+			$where        = array( 'useridnumber' => $useridnumber );
+			$where_format = array( '%s' );
+			$results = $wpdb->update( $wpdb->prefix .'medwesthealthpoints_users', $data, $where, $format, $where_format );
 
 			wp_die();
 
@@ -404,6 +471,92 @@ if ( ! class_exists( 'MedWestHealthPoints_Ajax_Functions', false ) ) :
 		}
 
 
+
+		// Function for the admin to create a new Activty.
+		public function medwesthealthpoints_create_new_activity_action_callback() {
+
+			global $wpdb;
+			check_ajax_referer( 'medwesthealthpoints_create_new_activity_action_callback', 'security' );
+
+			$activityname        = '';
+			$activitypointsvalue = '';
+			$activitycategory    = '';
+
+			if ( isset( $_POST['activityname'] ) ) {
+				$activityname = filter_var( wp_unslash( $_POST['activityname'] ), FILTER_SANITIZE_STRING );
+			}
+
+			if ( isset( $_POST['activitypointsvalue'] ) ) {
+				$activitypointsvalue = filter_var( wp_unslash( $_POST['activitypointsvalue'] ), FILTER_SANITIZE_NUMBER_INT );
+			}
+
+			if ( isset( $_POST['activitycategory'] ) ) {
+				$activitycategory = filter_var( wp_unslash( $_POST['activitycategory'] ), FILTER_SANITIZE_STRING );
+			}
+
+			// Now add the user to the custom table.
+			$activity_table_array = array(
+				'activityname'       => $activityname,
+				'activitypointsvalue' => $activitypointsvalue,
+				'activitycategory'   => $activitycategory,
+			);
+
+			$activity_table_dbtype_array = array(
+				'%s',
+				'%d',
+				'%s',
+			);
+
+			$users_table_result = $wpdb->insert( $wpdb->prefix . 'medwesthealthpoints_activities', $activity_table_array, $activity_table_dbtype_array );
+			$user_id            = $wpdb->insert_id;
+			wp_die( $user_id );
+
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		public function medwesthealthpoints_edit_reward_action_callback() {
 
 			global $wpdb;
@@ -454,7 +607,7 @@ if ( ! class_exists( 'MedWestHealthPoints_Ajax_Functions', false ) ) :
 			wp_die( $results );
 		}
 
-
+		// Function to allow admins to delete rewards
 		public function medwesthealthpoints_delete_reward_action_callback() {
 
 			global $wpdb;
@@ -467,6 +620,198 @@ if ( ! class_exists( 'MedWestHealthPoints_Ajax_Functions', false ) ) :
 			}
 
 			$results = $wpdb->delete( $wpdb->prefix . 'medwesthealthpoints_rewards', array( 'ID' => $id ), array( '%d' ) );
+			wp_die( $results );
+		}
+
+		// Function to allow admins to delete activitiess
+		public function medwesthealthpoints_delete_activity_action_callback() {
+
+			global $wpdb;
+			check_ajax_referer( 'medwesthealthpoints_delete_activity_action_callback', 'security' );
+
+			$id = '';
+
+			if ( isset( $_POST['id'] ) ) {
+				$id = filter_var( wp_unslash( $_POST['id'] ), FILTER_SANITIZE_NUMBER_INT );
+			}
+
+			$results = $wpdb->delete( $wpdb->prefix . 'medwesthealthpoints_activities', array( 'ID' => $id ), array( '%d' ) );
+			wp_die( $results );
+		}
+
+		// Function to allow admins to delete activitiess
+		public function medwesthealthpoints_bulk_upload_users_action_callback() {
+
+			global $wpdb;
+			check_ajax_referer( 'medwesthealthpoints_bulk_upload_users_action_callback', 'security' );
+
+			$filename = 'http://healthpoints.local/wp-content/uploads/2019/10/Healthpoints.xlsx-Active-Members.csv';
+
+			// The nested array to hold all the arrays
+			$the_big_array = [];
+
+			// Open the file for reading
+			if ( ( $h = fopen("{$filename}", "r")) !== FALSE) 
+			{
+
+				error_log('tracker1');
+			  // Each line in the file is converted into an individual array that we call $data
+			  // The items of the array are comma separated
+			  while (($data = fgetcsv($h, 1000, ",")) !== FALSE) 
+			  {
+
+			  	error_log('tracker2');
+			    // Each individual array is being pushed into the nested array
+			    $the_big_array[] = $data;		
+			  }
+
+			  // Close the file
+			  fclose($h);
+			}
+
+			// Display the code in a readable format
+			echo "<pre>";
+			//error_log(print_r($the_big_array,true));
+			echo "</pre>";
+
+			foreach ($the_big_array as $key => $array) {
+				
+
+error_log('hmm');
+
+
+
+
+// Let's make checks for WordPress user/e-mail already being taken.
+			$user_id       = '';
+			$usernamecheck = username_exists( $array[2] );
+			if ( $usernamecheck ) {
+				$error = 'Username Exists';
+				//wp_die( $error );
+			}
+error_log('hmm2');
+			if ( email_exists( $array[2] ) ) {
+				$error = 'E-Mail Exists';
+				//wp_die( $error );
+			}
+
+			if ( ! $usernamecheck && false === email_exists( $array[2] ) ) {
+				$user_id = wp_create_user( $array[2], $array[3] . '_pass', $array[2] );
+				if ( is_wp_error( $user_id ) ) {
+					$user_id = 'Unknown error creating WordPress User';
+					//wp_die( $user_id );
+				} else {
+
+					// Now add the user to the custom table.
+					$user_table_array = array(
+						'userfirstname'    => $array[0],
+						'userlastname'     => $array[1],
+						'userjoindate'     => date("m/d/Y"),
+						'userwpuserid'     => $user_id,
+						'userdepartment'   => '3 East',
+						'useridnumber'     => $array[3],
+						'userhealthpoints' => $array[4],
+						'userlastlogin'    => date("m/d/Y"),
+						'useremail'        => $array[2],
+					);
+
+					$user_table_dbtype_array = array(
+						'%s',
+						'%s',
+						'%s',
+						'%s',
+						'%s',
+						'%s',
+						'%d',
+						'%s',
+						'%s',
+						'%d',
+					);
+
+					$users_table_result = $wpdb->insert( $wpdb->prefix . 'medwesthealthpoints_users', $user_table_array, $user_table_dbtype_array );
+					$user_id            = $wpdb->insert_id;
+					//wp_die( $user_id . '--$user_id--' . $array[2] );
+				}
+			}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			}
+
+
+
+
+
+
+
+
+
+
+
+/*
+			$id = '';
+
+			if ( isset( $_POST['id'] ) ) {
+				$id = filter_var( wp_unslash( $_POST['id'] ), FILTER_SANITIZE_NUMBER_INT );
+			}
+*/
+			//$results = $wpdb->delete( $wpdb->prefix . 'medwesthealthpoints_activities', array( 'ID' => $id ), array( '%d' ) );
+			wp_die( '$results' );
+		}
+
+		// Function to allow the Admin to edit an existing Activity.
+		public function medwesthealthpoints_edit_activity_action_callback() {
+
+			global $wpdb;
+			check_ajax_referer( 'medwesthealthpoints_edit_activity_action_callback', 'security' );
+
+			error_log('gfdgfdsgfdgfdsgf');
+
+			$activityname       = '';
+			$activitypointvalue = '';
+			$activitycategory   = '';
+			$id                 = '';
+
+			if ( isset( $_POST['activityname'] ) ) {
+				$activityname = filter_var( wp_unslash( $_POST['activityname'] ), FILTER_SANITIZE_STRING );
+			}
+
+			if ( isset( $_POST['activitypointsvalue'] ) ) {
+				$activitypointsvalue = filter_var( wp_unslash( $_POST['activitypointsvalue'] ), FILTER_SANITIZE_STRING );
+			}
+
+			if ( isset( $_POST['activitycategory'] ) ) {
+				$activitycategory = filter_var( wp_unslash( $_POST['activitycategory'] ), FILTER_SANITIZE_STRING );
+			}
+
+			if ( isset( $_POST['id'] ) ) {
+				$id = filter_var( wp_unslash( $_POST['id'] ), FILTER_SANITIZE_NUMBER_INT );
+			}
+
+			$data = array(
+				'activityname'        => $activityname,
+				'activitypointsvalue' => $activitypointsvalue,
+				'activitycategory'    => $activitycategory,
+			);
+			$format       = array( '%s','%d','%s',);
+			$where        = array( 'ID' => $id );
+			$where_format = array( '%d' );
+			$results = $wpdb->update( $wpdb->prefix .'medwesthealthpoints_activities', $data, $where, $format, $where_format );
 			wp_die( $results );
 		}
 

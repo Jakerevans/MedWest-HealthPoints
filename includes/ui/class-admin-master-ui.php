@@ -54,7 +54,7 @@ class MedWesthealthpoints_Admin_Menu {
             case 'MedWestHealthPoints-Options-rewards':
                 $this->setup_submenupage1_ui();
                 break;  
-             case 'MedWestHealthPoints-Options-submenu-page2':
+             case 'MedWestHealthPoints-Options-users':
                 $this->setup_submenupage2_ui();
                 break;         
             default:
@@ -68,6 +68,8 @@ class MedWesthealthpoints_Admin_Menu {
     private function setup_settings_ui() {
         $this->tabs = array(
             'activities1'   => __("Pending Activities", 'medwesthpplugin'),
+            'activities2'   => __("Create Activities", 'medwesthpplugin'),
+            'activities3'   => __("Edit & Delete Activities", 'medwesthpplugin'),
         );
 
         if(has_filter('medwesthealthpoints_add_tab_settings')) {
@@ -82,11 +84,12 @@ class MedWesthealthpoints_Admin_Menu {
         $this->output_indiv_tab();
     }
 
-     // Sets up tabs for the 'Books' page
+     // Sets up tabs for the 'Books' page.
     private function setup_submenupage1_ui() {
         $this->tabs = array(
-            'rewardspage1tab1'   => __("Create Rewards", 'medwesthpplugin'),
-            'rewardspage1tab2'  => __("Edit & Delete Rewards", 'medwesthpplugin'),
+            'rewardspage1tab1'  => __("Pending Rewards", 'medwesthpplugin'),
+            'rewardspage1tab2'  => __("Create Rewards", 'medwesthpplugin'),
+            'rewardspage1tab3'  => __("Edit & Delete Rewards", 'medwesthpplugin'),
         );
 
         if(has_filter('medwesthealthpoints_add_tab_submenupage1')) {
@@ -104,8 +107,8 @@ class MedWesthealthpoints_Admin_Menu {
     // Sets up tabs for the 'Books' page
     private function setup_submenupage2_ui() {
         $this->tabs = array(
-            'submenupage2tab1'   => __("Submenu2 Tab 1", 'medwesthpplugin'),
-            'submenupage2tab2'  => __("Submenu2 Tab 2", 'medwesthpplugin'),
+            'userspage2tab1' => __("Create Users", 'medwesthpplugin'),
+            //'userspage2tab2' => __("Edit & Delete Users", 'medwesthpplugin'),
         );
 
         if(has_filter('medwesthealthpoints_add_tab_submenupage2')) {

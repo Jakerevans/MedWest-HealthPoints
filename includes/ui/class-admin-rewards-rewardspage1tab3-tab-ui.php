@@ -24,7 +24,7 @@ if ( ! class_exists( 'MedWesthealthpoints_Settings_Settings1_Tab', false ) ) :
 		 */
 		public function __construct() {
 			require_once MEDWESTHEALTHPOINTS_CLASS_DIR . 'class-admin-ui-template.php';
-			require_once MEDWESTHEALTHPOINTS_CLASS_DIR . 'class-submenu-two-tab-two-form.php';
+			require_once MEDWESTHEALTHPOINTS_CLASS_DIR . 'class-submenu-one-tab-three-form.php';
 
 			// Instantiate the class.
 			$this->template = new MedWesthealthpoints_Admin_UI_Template();
@@ -39,8 +39,8 @@ if ( ! class_exists( 'MedWesthealthpoints_Settings_Settings1_Tab', false ) ) :
 		 * Opens the admin container for the tab
 		 */
 		private function output_open_admin_container() {
-			$title    = 'Submenu 2 Tab 1';
-			$icon_url = MEDWESTHEALTHPOINTS_ROOT_IMG_URL . 'settings.svg';
+			$title    = 'Edit & Delete Rewards';
+			$icon_url = MEDWESTHEALTHPOINTS_ROOT_IMG_URL . 'trophy.svg';
 
 			echo $this->template->output_open_admin_container( $title, $icon_url );
 

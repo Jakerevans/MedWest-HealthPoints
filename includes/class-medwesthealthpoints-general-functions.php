@@ -54,11 +54,12 @@ if ( ! class_exists( 'MedWestHealthPoints_General_Functions', false ) ) :
 		 *  @param array $submenu_array - The array that contains submenu entries to add to.
 		 */
 		public function medwesthealthpoints_jre_my_admin_menu() {
-			add_menu_page( 'Bell  MedWestHealthPoints', 'MedWest HealthPoints', 'manage_options', 'MedWestHealthPoints-Options', array( $this, 'medwesthealthpoints_jre_admin_page_function' ), MEDWESTHEALTHPOINTS_ROOT_IMG_URL . 'belllogo.svg', 6 );
+			add_menu_page( 'Bell  MedWestHealthPoints', 'MedWest HealthPoints', 'manage_options', 'MedWestHealthPoints-Options', array( $this, 'medwesthealthpoints_jre_admin_page_function' ), MEDWESTHEALTHPOINTS_ROOT_IMG_URL . 'MedWest_HealthPoints_Mark.png', 6 );
 
 			$submenu_array = array(
 				'Activities',
 				'Rewards',
+				'Users',
 			);
 
 			// Filter to allow the addition of a new subpage.
@@ -286,7 +287,7 @@ if ( ! class_exists( 'MedWestHealthPoints_General_Functions', false ) ) :
 			if ( $test_name !== $wpdb->get_var( "SHOW TABLES LIKE '$test_name'" ) ) {
 				dbDelta( $sql_create_table2 );
 				$table_name = $wpdb->prefix . 'medwesthealthpoints_users';
-				$wpdb->insert( $table_name, array( 'ID' => 1, ) );
+				//$wpdb->insert( $table_name, array( 'ID' => 1, ) );
 			}
 
 
@@ -308,7 +309,7 @@ if ( ! class_exists( 'MedWestHealthPoints_General_Functions', false ) ) :
 			if ( $test_name !== $wpdb->get_var( "SHOW TABLES LIKE '$test_name'" ) ) {
 				dbDelta( $sql_create_table3 );
 				$table_name = $wpdb->prefix . 'medwesthealthpoints_rewards';
-				$wpdb->insert( $table_name, array( 'ID' => 1, ) );
+				//$wpdb->insert( $table_name, array( 'ID' => 1, ) );
 			}
 
 
@@ -334,7 +335,7 @@ if ( ! class_exists( 'MedWestHealthPoints_General_Functions', false ) ) :
 			if ( $test_name !== $wpdb->get_var( "SHOW TABLES LIKE '$test_name'" ) ) {
 				dbDelta( $sql_create_table4 );
 				$table_name = $wpdb->prefix . 'medwesthealthpoints_activities_submitted';
-				$wpdb->insert( $table_name, array( 'ID' => 1, ) );
+				//$wpdb->insert( $table_name, array( 'ID' => 1, ) );
 			}
 
 			$sql_create_table5 = "CREATE TABLE {$wpdb->medwesthealthpoints_rewardrequests}
@@ -356,7 +357,7 @@ if ( ! class_exists( 'MedWestHealthPoints_General_Functions', false ) ) :
 			if ( $test_name !== $wpdb->get_var( "SHOW TABLES LIKE '$test_name'" ) ) {
 				dbDelta( $sql_create_table5 );
 				$table_name = $wpdb->prefix . 'medwesthealthpoints_rewardrequests';
-				$wpdb->insert( $table_name, array( 'ID' => 1, ) );
+				//$wpdb->insert( $table_name, array( 'ID' => 1, ) );
 			}
 
 			$sql_create_table6 = "CREATE TABLE {$wpdb->medwesthealthpoints_activities}
@@ -377,7 +378,7 @@ if ( ! class_exists( 'MedWestHealthPoints_General_Functions', false ) ) :
 			if ( $test_name !== $wpdb->get_var( "SHOW TABLES LIKE '$test_name'" ) ) {
 				dbDelta( $sql_create_table6 );
 				$table_name = $wpdb->prefix . 'medwesthealthpoints_activities';
-				$wpdb->insert( $table_name, array( 'ID' => 1, ) );
+				//$wpdb->insert( $table_name, array( 'ID' => 1, ) );
 			}
 
 		}

@@ -355,3 +355,248 @@ div#medwest-create-reward-backend-button-wrapper{
     padding: 10px;
     margin-top: 10px;
 }
+
+
+
+
+
+
+#medwesthealthpoints-dashboard-container, #medwesthealthpoints-dashboard-register-options-wrapper{
+    display: inline-block;
+    vertical-align: top;
+    margin: 0px 20px 0px 20px;
+}
+
+#medwesthealthpoints-dashboard-veteran-join-form-wrapper{
+    max-width:100%;
+    width:100%;
+}
+
+#medwesthealthpoints-dashboard-loggedin-top-wrapper{
+    max-width:100%;
+    width:100%;
+}
+
+#medwesthealthpoints-join-as-vet, #wp-submit, .medwesthealthpoints-form-section-fields-input-button-apply{
+ 
+}
+
+
+#medwesthealthpoints-dashboard-login-row-wrapper input[type="number"], #medwesthealthpoints-dashboard-login-row-wrapper input[type="text"], #medwesthealthpoints-dashboard-login-row-wrapper input[type="password"], #medwesthealthpoints-form-vetstate{
+    width:300px;
+}
+
+.medwesthealthpoints-form-section-fields-indiv-wrapper input[type="number"], .medwesthealthpoints-form-section-fields-indiv-wrapper input[type="text"], .medwesthealthpoints-form-section-fields-indiv-wrapper input[type="password"], #medwesthealthpoints-form-vetstate{
+    width:300px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+#medwesthealthpoints-dashboard-login-row-wrapper .login-username label, #medwesthealthpoints-dashboard-login-row-wrapper .login-password label, .medwest-form-section-fields-label{
+
+}
+
+.medwesthealthpoints-form-section-fields-indiv-wrapper label{
+    display: block;
+    text-align: center;
+}
+
+.medwesthealthpoints-form-section-fields-wrapper, .medwesthealthpoints-form-section-fields-indiv-wrapper-passwordconfirmblock{
+    display: inline-block;
+    vertical-align: top;
+    margin: 20px;
+}
+
+.medwesthealthpoints-form-section-fields-indiv-wrapper-passwordconfirmblock{
+    text-align: center;
+    margin-top: 12px;
+}
+
+.medwesthealthpoints-displayentries-response-div-wrapper{
+    text-align:center;
+    margin-top:30px;
+}
+
+.medwesthealthpoints-form-section-title-wrapper{
+    text-align:center;
+    font-weight: bold;
+}
+
+#medwesthealthpoints-spinner-1{
+    opacity: 0;
+    height: 20px;
+    width: 20px;
+    margin: 10px auto;
+    -webkit-animation: rotation .6s infinite linear;
+    -moz-animation: rotation .6s infinite linear;
+    -o-animation: rotation .6s infinite linear;
+    animation: rotation .6s infinite linear;
+    border-left: 1px solid #fff;
+    border-right: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+    border-top: 1px solid #009693;
+    border-radius: 100%;
+    position: relative;
+}
+
+.medwesthealthpoints-displayentries-response-div-actual-container{
+    margin:20px;
+}
+
+.medwesthealthpoints-confirmemail-block-message-div, .medwesthealthpoints-confirmpassword-block-message-div{
+    text-align: center;
+    height:35px;
+}
+
+.medwest-loggedin-indiv-profile-piece-wrapper{
+    display: inline-block;
+    margin: 20px;
+}
+
+#medwest-loggedin-profile-wrapper, #medwest-loggedin-title-div{
+    text-align:center;
+}
+
+#medwest-loggedin-title-div, .medwest-loggedin-indiv-wrapper-actual-title{
+    font-weight:bold;
+}
+
+.medwest-record-view-rows{
+    display: flex;
+}
+
+.medwest-loggedin-indiv-profile-piece-wrapper-button{
+    flex: 1;
+    background-color: #1f9693;
+    padding: 20px;
+    color: white;
+    text-align: center;
+    cursor: pointer;
+    margin: 20px;
+}
+
+#medwest-submit-activity-submissions-button{
+    margin-top:20px;
+}
+
+.medwest-record-view-rows-wrapper{
+    text-align:center;
+}
+
+.medwest-fields-organizer, .medwest-fields-organizer label{
+    display: block;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    margin-top: 40px;
+}
+
+.media-frame-title {
+    position: absolute;
+    top: -50px!important;
+}
+
+#medwest-record-view-rows-actual-form-wrapper{
+    height: 0px;
+    overflow: hidden;
+    opacity: 0;
+}
+
+.medwest-saved-act-indiv-wrapper{
+    border: solid 1px #eee;
+    padding: 10px;
+    margin-bottom: 20px;
+    background-color: rgba(84, 191, 194, 0.3);
+}
+
+.medwest-saved-act-indiv-wrapper p{
+    margin:0;
+    text-align: left;
+}
+
+.medwest-saved-activities-all-wrapper .medwest-saved-act-indiv-wrapper p a{
+    text-decoration: none;
+}
+
+.medwest-saved-act-indiv-wrapper div{
+    margin-left:10px;
+}
+
+.medwest-saved-act-title{
+    font-weight:bold;
+    text-decoration: underline;
+}
+
+.medwest-saved-activities-top-wrapper{
+    height:0px;
+    opacity:0;
+    overflow: hidden;
+}
+
+#medwest-loggedin-frontend-colorbox-trigger{
+    cursor: pointer;
+}
+
+.medwest-popup-secondrow{
+    display: flex;
+}
+
+.medwest-popup-reward-image-row{
+    flex: 1;
+}
+
+.medwest-popup-reward-description-row{
+    flex: 3;
+    text-align: center;
+}
+
+.medwest-popup-reward-description-row p{
+    margin:0px;
+}
+
+.medwest-popup-reward-redeem-row{
+    flex: 1;
+    text-align: center;
+}
+
+.medwest-popup-reward-redeem-row div{
+    font-style:italic;
+}
+
+.medwest-popup-reward-image-row img{
+    width: 60px;
+}
+
+.medwest-popup-indiv-rewards-wrapper{
+    padding: 20px;
+    border: solid 1px black;
+    margin: 20px;
+}
+
+.medwest-popup-title{
+    text-decoration: underline;
+    text-transform: uppercase;
+}
+
+.medwest-hidden-request-reward-verify-wrapper{
+    text-align:center;
+}
+
+.medwest-hidden-request-reward-verify-wrapper{
+    height: 0px;
+    overflow: hidden;
+    opacity:0;
+}
+
+.medwesthealthpoints-form-section-wrapper{
+    text-align: center;
+}
+
+.toplevel_page_MedWestHealthPoints-Options .dashicons-before img {
+    width: 35px !important;
+    margin-right: 2px !important;
+    padding: 2px 0 0 !important;
+    top: 6px;
+    position: relative;
+}

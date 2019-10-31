@@ -160,7 +160,7 @@ if ( ! class_exists( 'MedWestHealthPoints_Dashboard_UI', false ) ) :
 											<label class="medwest-form-section-fields-label">Department</label>
 											<select id="medwesthealthpoints-form-vetstate" data-required="true" data-ignore="false" class="medwest-form-section-fields-input medwest-form-section-fields-input-select" data-dbtype="%s" data-dbname="vetstate">
 												<option value="default" selected default disabled>Select A Department...</option>
-												<option>AL</option><option>AK</option><option>AS</option><option>AZ</option><option>AR</option><option>CA</option><option>CO</option><option>CT</option><option>DE</option><option>DC</option><option>FM</option><option>FL</option><option>GA</option><option>GU</option><option>HI</option><option>ID</option><option>IL</option><option>IN</option><option>IA</option><option>KS</option><option>KY</option><option>LA</option><option>ME</option><option>MH</option><option>MD</option><option>MA</option><option>MI</option><option>MN</option><option>MS</option><option>MO</option><option>MT</option><option>NE</option><option>NV</option><option>NH</option><option>NJ</option><option>NM</option><option>NY</option><option>NC</option><option>ND</option><option>MP</option><option>OH</option><option>OK</option><option>OR</option><option>PW</option><option>PA</option><option>PR</option><option>RI</option><option>SC</option><option>SD</option><option>TN</option><option>TX</option><option>UT</option><option>VT</option><option>VI</option><option>VA</option><option>WA</option><option>WV</option><option>WI</option><option>WY</option><option>AE</option><option>AA</option><option>AP</option>
+												<option>3 East</option><option>4 North</option><option>6 East</option><option>6B</option><option>Administration</option><option>Anesthesia</option><option>Biomedical Engineering</option><option>Business Office</option><option>Cardiopulmonary Services</option><option>Case Management</option><option>Chaplains</option><option>Compliance</option><option>Emergency Department</option><option>Environmental Services</option><option>Finance</option><option>Food Services</option><option>GI Lab</option><option>Health Information Management</option><option>Hospital Education</option><option>Human Resources</option><option>ICT</option><option>ICU</option><option>Imaging Services</option><option>Information Systems</option><option>Laboratory</option><option>Marketing</option><option>Materials Management</option><option>Medical Staff Services</option><option>Nursing Services Office</option><option>Payroll</option><option>Pharmacy</option><option>Physical Therapy</option><option>Physician Relations</option><option>Plan Operations</option><option>Quality Management</option><option>Rehabilitation Services</option><option>Safety</option><option>Security</option><option>Surgical Services</option><option>Women’s Center</option>
 											</select>
 											<div class="medwesthealthpoints-form-section-fields-indiv-wrapper">
 												<label class="medwesthealthpoints-form-section-fields-label">Employee Number</label>
@@ -331,8 +331,8 @@ if ( ! class_exists( 'MedWestHealthPoints_Dashboard_UI', false ) ) :
 							<p class="medwest-saved-act-title">' . $activity->activityname . '</p>
 							<div>
 								<p>Date Performed: ' . $activity->activitydateperformed . '</p>
-								<p>Activity Status: ' . $activity->activitystatus . '</p>
-								<p><a href="https://www.google.com">Click Here To See Supporting Documentation</a></p>
+								<p>Activity Status: ' . ucfirst( $activity->activitystatus ) . '</p>
+								<p><a href="' . $activity->activitysupportingdocs . '">Click Here To See Supporting Documentation</a></p>
 								<p></p>
 							</div>
 						</div>';
@@ -344,7 +344,7 @@ if ( ! class_exists( 'MedWestHealthPoints_Dashboard_UI', false ) ) :
 							<div>
 								<p>Date Performed: ' . $activity->activitydateperformed . '</p>
 								<p>Activity Status: ' . $activity->activitystatus . '</p>
-								<p><a href="https://www.google.com">Click Here To See Supporting Documentation</a></p>
+								<p><a href="' . $activity->activitysupportingdocs . '">Click Here To See Supporting Documentation</a></p>
 								<p></p>
 							</div>
 						</div>';
@@ -356,7 +356,7 @@ if ( ! class_exists( 'MedWestHealthPoints_Dashboard_UI', false ) ) :
 							<div>
 								<p>Date Performed: ' . $activity->activitydateperformed . '</p>
 								<p>Activity Status: ' . $activity->activitystatus . '</p>
-								<p><a href="https://www.google.com">Click Here To See Supporting Documentation</a></p>
+								<p><a href="' . $activity->activitysupportingdocs . '">Click Here To See Supporting Documentation</a></p>
 								<p></p>
 							</div>
 						</div>';
@@ -368,7 +368,7 @@ if ( ! class_exists( 'MedWestHealthPoints_Dashboard_UI', false ) ) :
 							<div>
 								<p>Date Performed: ' . $activity->activitydateperformed . '</p>
 								<p>Activity Status: ' . $activity->activitystatus . '</p>
-								<p><a href="https://www.google.com">Click Here To See Supporting Documentation</a></p>
+								<p><a href="' . $activity->activitysupportingdocs . '">Click Here To See Supporting Documentation</a></p>
 								<p></p>
 							</div>
 						</div>';
@@ -383,16 +383,16 @@ if ( ! class_exists( 'MedWestHealthPoints_Dashboard_UI', false ) ) :
 			foreach ( $this->activitiesobject as $key => $activity ) {
 				// Build out the Dropdowns and the individual saved Activities entries.
 				switch ( $activity->activitycategory ) {
-					case 'wellness':
+					case 'Wellness':
 						$category_dropdown_wellness = $category_dropdown_wellness . '<option value="' . $activity->activityname . '">' . $activity->activityname . '</option>';
 						break;
-					case 'education':
+					case 'Education':
 						$category_dropdown_education = $category_dropdown_education . '<option value="' . $activity->activityname . '">' . $activity->activityname . '</option>';
 						break;
-					case 'exercise':
+					case 'Exercise':
 						$category_dropdown_exercise = $category_dropdown_exercise . '<option value="' . $activity->activityname . '">' . $activity->activityname . '</option>';
 						break;
-					case 'event':
+					case 'Event':
 						$category_dropdown_event = $category_dropdown_event . '<option value="' . $activity->activityname . '">' . $activity->activityname . '</option>';
 						break;
 					default:
@@ -492,7 +492,7 @@ if ( ! class_exists( 'MedWestHealthPoints_Dashboard_UI', false ) ) :
 							<div id="medwest-dropdown-education">' . $category_dropdown_education . '</div>
 							<div id="medwest-dropdown-event">' . $category_dropdown_event . '</div>
 						</div>
-						<div class="medwest-saved-activities-top-wrapper" id="medwest-saved-activities-top-wrapper-wellness" data-activity="exercise">
+						<div class="medwest-saved-activities-top-wrapper" id="medwest-saved-activities-top-wrapper-wellness" data-activity="wellness">
 							<div id="medwest-loggedin-title-div">
 								<p id="medwest-dynamic-record-view-activity-title">View Your Saved Wellness Activities Below</p>
 							</div>
@@ -510,7 +510,7 @@ if ( ! class_exists( 'MedWestHealthPoints_Dashboard_UI', false ) ) :
 							</div>
 						</div>
 
-						<div class="medwest-saved-activities-top-wrapper" id="medwest-saved-activities-top-wrapper-education" data-activity="exercise">
+						<div class="medwest-saved-activities-top-wrapper" id="medwest-saved-activities-top-wrapper-education" data-activity="education">
 							<div id="medwest-loggedin-title-div">
 								<p id="medwest-dynamic-record-view-activity-title">View Your Saved Education Activities Below</p>
 							</div>
@@ -519,7 +519,7 @@ if ( ! class_exists( 'MedWestHealthPoints_Dashboard_UI', false ) ) :
 							</div>
 						</div>
 
-						<div class="medwest-saved-activities-top-wrapper" id="medwest-saved-activities-top-wrapper-event" data-activity="exercise">
+						<div class="medwest-saved-activities-top-wrapper" id="medwest-saved-activities-top-wrapper-event" data-activity="event">
 							<div id="medwest-loggedin-title-div">
 								<p id="medwest-dynamic-record-view-activity-title">View Your Saved Event Activities Below</p>
 							</div>
@@ -543,6 +543,7 @@ if ( ! class_exists( 'MedWestHealthPoints_Dashboard_UI', false ) ) :
 									<button class="medwest-form-section-fields-input medwest-form-section-fields-input-button medwest-form-section-fields-input-file-upload-button" id="medwest-form-button-vetdd214-0" data-dbtype="%s" data-dbname="vetdd214-button">Choose File</button>
 								</div>
 							</div>
+							<div class="medwesthealthpoints-spinner" id="medwesthealthpoints-spinner-1"></div>
 							<button data-activityemployeeid="' . $this->userobject->useridnumber . '" data-wpuserid="' . $this->currentwpuserid . '" id="medwest-submit-activity-submissions-button">Submit Activity!</button>
 						</div>
 					</div>

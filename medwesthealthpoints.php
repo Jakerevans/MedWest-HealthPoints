@@ -10,7 +10,7 @@
  * @wordpress-plugin
  * Plugin Name: MedWestHealthPoints Extension
  * Plugin URI: https://www.jakerevans.com
- * Description: A Boilerplate Extension for MedWesthealthpoints that creates a menu page and has it's own tabs.
+ * Description: A WordPress Plugin that let's Medwest Employees earn Rewards for Health Activities!
  * Version: 1.0.0
  * Author: Jake Evans
  * Text Domain: medwesthealthpoints
@@ -140,14 +140,22 @@ global $wpdb;
 	// Nonces array.
 	define( 'MEDWESTHEALTHPOINTS_NONCES_ARRAY',
 		wp_json_encode(array(
-			'adminnonce1' => 'medwesthealthpoints_register_new_user_action_callback',
-			'adminnonce2' => 'medwesthealthpoints_save_activity_user_action_callback',
-			'adminnonce3' => 'medwesthealthpoints_request_reward_user_action_callback',
-			'adminnonce4' => 'medwesthealthpoints_approve_activities_user_action_callback',
-			'adminnonce5' => 'medwesthealthpoints_deny_activities_user_action_callback',
-			'adminnonce6' => 'medwesthealthpoints_create_new_reward_action_callback',
-			'adminnonce7' => 'medwesthealthpoints_edit_reward_action_callback',
-			'adminnonce8' => 'medwesthealthpoints_delete_reward_action_callback',
+			'adminnonce1'  => 'medwesthealthpoints_register_new_user_action_callback',
+			'adminnonce2'  => 'medwesthealthpoints_save_activity_user_action_callback',
+			'adminnonce3'  => 'medwesthealthpoints_request_reward_user_action_callback',
+			'adminnonce4'  => 'medwesthealthpoints_approve_activities_user_action_callback',
+			'adminnonce5'  => 'medwesthealthpoints_deny_activities_user_action_callback',
+			'adminnonce6'  => 'medwesthealthpoints_create_new_reward_action_callback',
+			'adminnonce7'  => 'medwesthealthpoints_edit_reward_action_callback',
+			'adminnonce8'  => 'medwesthealthpoints_delete_reward_action_callback',
+			'adminnonce9'  => 'medwesthealthpoints_create_new_activity_action_callback',
+			'adminnonce10' => 'medwesthealthpoints_edit_activity_action_callback',
+			'adminnonce11' => 'medwesthealthpoints_delete_activity_action_callback',
+			'adminnonce12' => 'medwesthealthpoints_approve_rewards_user_action_callback',
+			'adminnonce13' => 'medwesthealthpoints_deny_rewards_user_action_callback',
+			'adminnonce14' => 'medwesthealthpoints_bulk_upload_users_action_callback',
+
+
 		))
 	);
 
@@ -247,6 +255,9 @@ global $wpdb;
 	add_action( 'wp_ajax_medwesthealthpoints_deny_activities_user_action', array( $medwesthealthpoints_ajax_functions, 'medwesthealthpoints_deny_activities_user_action_callback' ) );
 	add_action( 'wp_ajax_nopriv_medwesthealthpoints_deny_activities_user_action', array( $medwesthealthpoints_ajax_functions, 'medwesthealthpoints_deny_activities_user_action_callback' ) );
 
+	add_action( 'wp_ajax_medwesthealthpoints_deny_rewards_user_action', array( $medwesthealthpoints_ajax_functions, 'medwesthealthpoints_deny_rewards_user_action_callback' ) );
+	add_action( 'wp_ajax_nopriv_medwesthealthpoints_deny_rewards_user_action', array( $medwesthealthpoints_ajax_functions, 'medwesthealthpoints_deny_rewards_user_action_callback' ) );
+
 	add_action( 'wp_ajax_medwesthealthpoints_create_new_reward_action', array( $medwesthealthpoints_ajax_functions, 'medwesthealthpoints_create_new_reward_action_callback' ) );
 	add_action( 'wp_ajax_nopriv_medwesthealthpoints_create_new_reward_action', array( $medwesthealthpoints_ajax_functions, 'medwesthealthpoints_create_new_reward_action_callback' ) );
 
@@ -256,9 +267,20 @@ global $wpdb;
 	add_action( 'wp_ajax_medwesthealthpoints_delete_reward_action', array( $medwesthealthpoints_ajax_functions, 'medwesthealthpoints_delete_reward_action_callback' ) );
 	add_action( 'wp_ajax_nopriv_medwesthealthpoints_delete_reward_action', array( $medwesthealthpoints_ajax_functions, 'medwesthealthpoints_delete_reward_action_callback' ) );
 
+	add_action( 'wp_ajax_medwesthealthpoints_create_new_activity_action', array( $medwesthealthpoints_ajax_functions, 'medwesthealthpoints_create_new_activity_action_callback' ) );
+	add_action( 'wp_ajax_nopriv_medwesthealthpoints_create_new_activity_action', array( $medwesthealthpoints_ajax_functions, 'medwesthealthpoints_create_new_activity_action_callback' ) );
 
+	add_action( 'wp_ajax_medwesthealthpoints_delete_activity_action', array( $medwesthealthpoints_ajax_functions, 'medwesthealthpoints_delete_activity_action_callback' ) );
+	add_action( 'wp_ajax_nopriv_medwesthealthpoints_delete_activity_action', array( $medwesthealthpoints_ajax_functions, 'medwesthealthpoints_delete_activity_action_callback' ) );
 
+	add_action( 'wp_ajax_medwesthealthpoints_edit_activity_action', array( $medwesthealthpoints_ajax_functions, 'medwesthealthpoints_edit_activity_action_callback' ) );
+	add_action( 'wp_ajax_nopriv_medwesthealthpoints_edit_activity_action', array( $medwesthealthpoints_ajax_functions, 'medwesthealthpoints_edit_activity_action_callback' ) );
 
+	add_action( 'wp_ajax_medwesthealthpoints_approve_rewards_user_action', array( $medwesthealthpoints_ajax_functions, 'medwesthealthpoints_approve_rewards_user_action_callback' ) );
+	add_action( 'wp_ajax_nopriv_medwesthealthpoints_approve_rewards_user_action', array( $medwesthealthpoints_ajax_functions, 'medwesthealthpoints_approve_rewards_user_action_callback' ) );
+
+	add_action( 'wp_ajax_medwesthealthpoints_bulk_upload_users_action', array( $medwesthealthpoints_ajax_functions, 'medwesthealthpoints_bulk_upload_users_action_callback' ) );
+	add_action( 'wp_ajax_nopriv_medwesthealthpoints_bulk_upload_users_action', array( $medwesthealthpoints_ajax_functions, 'medwesthealthpoints_bulk_upload_users_action_callback' ) );
 
 
 

@@ -39,8 +39,8 @@ if ( ! class_exists( 'MedWesthealthpoints_Settings_Settings1_Tab', false ) ) :
 		 * Opens the admin container for the tab
 		 */
 		private function output_open_admin_container() {
-			$title    = 'Edit & Delete Rewards';
-			$icon_url = MEDWESTHEALTHPOINTS_ROOT_IMG_URL . 'settings.svg';
+			$title    = 'Create Rewards';
+			$icon_url = MEDWESTHEALTHPOINTS_ROOT_IMG_URL . 'trophy2.svg';
 
 			echo $this->template->output_open_admin_container( $title, $icon_url );
 

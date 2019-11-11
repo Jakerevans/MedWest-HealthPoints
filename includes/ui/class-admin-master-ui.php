@@ -108,7 +108,7 @@ class MedWesthealthpoints_Admin_Menu {
     private function setup_submenupage2_ui() {
         $this->tabs = array(
             'userspage2tab1' => __("Create Users", 'medwesthpplugin'),
-            //'userspage2tab2' => __("Edit & Delete Users", 'medwesthpplugin'),
+            'userspage2tab2' => __("Edit & Delete Users", 'medwesthpplugin'),
         );
 
         if(has_filter('medwesthealthpoints_add_tab_submenupage2')) {

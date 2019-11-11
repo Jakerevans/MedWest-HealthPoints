@@ -67,7 +67,7 @@ if ( ! class_exists( 'MedWesthealthpoints_Settings1_Form', false ) ) :
 						</div>
 						<div class="medwest-pending-activities-right-wrapper">
 							<div class="medwest-pending-activities-right-button-wrapper">
-								<button class="medwest-reward-approve-button" data-userhealthpoints="' . $this->userobject->userhealthpoints . '" data-useremployeeid="' . $this->userobject->useridnumber . '" data-rewardrequestid="' . $reward->ID . '">Approve Reward</button>
+								<button class="medwest-reward-approve-button" data-useremail="' . $this->userobject->useremail . '" data-userhealthpoints="' . $this->userobject->userhealthpoints . '" data-useremployeeid="' . $this->userobject->useridnumber . '" data-rewardrequestid="' . $reward->ID . '">Approve Reward</button>
 								<button class="medwest-reward-deny-button" data-userhealthpoints="' . ( $this->userobject->userhealthpoints + $this->activitiesobject->rewardpointvalue ) . '" data-useremployeeid="' . $this->userobject->useridnumber . '" data-rewardrequestid="' . $reward->ID . '">Deny Reward</button>
 							</div>
 						</div>

@@ -349,6 +349,10 @@ if ( ! class_exists( 'MedWestHealthPoints_Ajax_Functions', false ) ) :
 				$rewardrequestid = filter_var( wp_unslash( $_POST['rewardrequestid'] ), FILTER_SANITIZE_STRING );
 			}
 
+			if ( isset( $_POST['useremail'] ) ) {
+				$useremail = filter_var( wp_unslash( $_POST['useremail'] ), FILTER_SANITIZE_STRING );
+			}
+
 			// Now add points to the user's points pool.
 			$data         = array(
 				'rewardrequeststatus' => 'Approved',
@@ -357,6 +361,15 @@ if ( ! class_exists( 'MedWestHealthPoints_Ajax_Functions', false ) ) :
 			$where        = array( 'ID' => $rewardrequestid );
 			$where_format = array( '%d' );
 			$wpdb->update( $wpdb->prefix . 'medwesthealthpoints_rewardrequests', $data, $where, $format, $where_format );
+
+			// Now send an email to the user informing them that their reward is ready to pick up
+			$to      = $useremail;
+			$subject = 'Your HealthPoints Reward is Ready!';
+			$body    = 'Congratulations, your Wellness Reward is ready to be picked up in Human Resources! Stop by at your earliest convenience for your Reward.';
+			$headers = array('Content-Type: text/html; charset=UTF-8');
+			wp_mail( $to, $subject, $body, $headers );
+
+
 
 			wp_die();
 

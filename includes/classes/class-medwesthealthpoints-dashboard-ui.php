@@ -252,8 +252,8 @@ if ( ! class_exists( 'MedWestHealthPoints_Dashboard_UI', false ) ) :
 			// Get all available Rewards, determine eligibility, also build HTML for the Popup.
 			$this->rewardsobject = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->prefix . 'medwesthealthpoints_rewards' );
 			$eligible            = 'Not Quite Yet...';
-			$popup_html = '';
-			$disabled = '';
+			$popup_html          = '<div class="medwest-popup-rewards-schedule"><p>* Redemptions will be approved Thursday of each week</p><p>** Rewards will be available for pick up in Human Resources the following Tuesday</p></div>';
+			$disabled            = '';
 			foreach ( $this->rewardsobject as $key => $reward ) {
 
 
@@ -296,16 +296,6 @@ if ( ! class_exists( 'MedWestHealthPoints_Dashboard_UI', false ) ) :
 				
 
 			}
-
-
-
-
-
-
-
-
-
-
 
 
 			// Get all Activities
@@ -408,7 +398,7 @@ if ( ! class_exists( 'MedWestHealthPoints_Dashboard_UI', false ) ) :
 
 			$this->loggedin_dashboard_html_output = '
 				<div id="medwest-loggedin-title-div">
-					<p>Welcome ' . $this->userobject->userfirstname . '!</p>
+					<p>Welcome ' . $this->userobject->userfirstname . '!<br/><a style="font-variant: all-petite-caps;" href="' . wp_logout_url( get_permalink() ) . '">Logout</a></p>
 				</div>
 				<div id="medwest-loggedin-profile-wrapper">
 					<div class="medwest-loggedin-indiv-profile-piece-wrapper">

@@ -50,7 +50,7 @@ if ( ! class_exists( 'MedWesthealthpoints_Settings_Settings1_Tab', false ) ) :
 		 * Outputs actual tab contents
 		 */
 		private function output_tab_content() {
-			echo $this->form->output_settings1_form( 0, 100 );
+			echo $this->form->output_settings1_form( 0, 50 );
 		}
 
 		/**

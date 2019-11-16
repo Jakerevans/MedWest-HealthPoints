@@ -154,6 +154,7 @@ global $wpdb;
 			'adminnonce12' => 'medwesthealthpoints_approve_rewards_user_action_callback',
 			'adminnonce13' => 'medwesthealthpoints_deny_rewards_user_action_callback',
 			'adminnonce14' => 'medwesthealthpoints_bulk_upload_users_action_callback',
+			'adminnonce15' => 'medwesthealthpoints_edit_existing_user_action_callback',
 
 
 		))
@@ -242,6 +243,9 @@ global $wpdb;
 /* FUNCTIONS FOUND IN CLASS-WPPLUGIN-AJAX-FUNCTIONS.PHP THAT APPLY PLUGIN-WIDE */
 	add_action( 'wp_ajax_medwesthealthpoints_register_new_user_action', array( $medwesthealthpoints_ajax_functions, 'medwesthealthpoints_register_new_user_action_callback' ) );
 	add_action( 'wp_ajax_nopriv_medwesthealthpoints_register_new_user_action', array( $medwesthealthpoints_ajax_functions, 'medwesthealthpoints_register_new_user_action_callback' ) );
+
+	add_action( 'wp_ajax_medwesthealthpoints_edit_existing_user_action', array( $medwesthealthpoints_ajax_functions, 'medwesthealthpoints_edit_existing_user_action_callback' ) );
+	add_action( 'wp_ajax_nopriv_medwesthealthpoints_edit_existing_user_action', array( $medwesthealthpoints_ajax_functions, 'medwesthealthpoints_edit_existing_user_action_callback' ) );
 
 	add_action( 'wp_ajax_medwesthealthpoints_save_activity_user_action', array( $medwesthealthpoints_ajax_functions, 'medwesthealthpoints_save_activity_user_action_callback' ) );
 	add_action( 'wp_ajax_nopriv_medwesthealthpoints_save_activity_user_action', array( $medwesthealthpoints_ajax_functions, 'medwesthealthpoints_save_activity_user_action_callback' ) );

@@ -126,6 +126,69 @@ if ( ! class_exists( 'MedWestHealthPoints_Ajax_Functions', false ) ) :
 
 		}
 
+		public function medwesthealthpoints_edit_existing_user_action_callback() {
+			error_log('fdsfdsa');
+
+			global $wpdb;
+			check_ajax_referer( 'medwesthealthpoints_edit_existing_user_action_callback', 'security' );
+
+			$userfirstname    = '';
+			$userlastname     = '';
+			$useremail        = '';
+			$userpassword     = '';
+			$userdepartment   = '';
+			$useridnumber     = '';
+			$userhealthpoints = '';
+
+			if ( isset( $_POST['userfirstname'] ) ) {
+				$userfirstname = filter_var( wp_unslash( $_POST['userfirstname'] ), FILTER_SANITIZE_STRING );
+			}
+
+			if ( isset( $_POST['userlastname'] ) ) {
+				$userlastname = filter_var( wp_unslash( $_POST['userlastname'] ), FILTER_SANITIZE_STRING );
+			}
+
+			if ( isset( $_POST['useremail'] ) ) {
+				$useremail = filter_var( wp_unslash( $_POST['useremail'] ), FILTER_SANITIZE_STRING );
+			}
+
+			if ( isset( $_POST['userdepartment'] ) ) {
+				$userdepartment = filter_var( wp_unslash( $_POST['userdepartment'] ), FILTER_SANITIZE_STRING );
+			}
+
+			if ( isset( $_POST['useridnumber'] ) ) {
+				$useridnumber = filter_var( wp_unslash( $_POST['useridnumber'] ), FILTER_SANITIZE_STRING );
+			}
+
+			if ( isset( $_POST['userhealthpoints'] ) ) {
+				$userhealthpoints = filter_var( wp_unslash( $_POST['userhealthpoints'] ), FILTER_SANITIZE_NUMBER_INT );
+			}
+
+			$data = array(
+				'userfirstname'    => $userfirstname,
+				'userlastname'     => $userlastname,
+				'userdepartment'   => $userdepartment,
+				'useridnumber'     => $useridnumber,
+				'userhealthpoints' => $userhealthpoints,
+				'useremail'        => $useremail,
+			);
+
+			$format = array(
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%d',
+				'%s',
+			);
+
+			$where        = array( 'useridnumber' => $useridnumber );
+			$where_format = array( '%s' );
+			$result = $wpdb->update( $wpdb->prefix . 'medwesthealthpoints_users', $data, $where, $format, $where_format );
+			wp_die( $result );
+
+		}
+
 
 
 

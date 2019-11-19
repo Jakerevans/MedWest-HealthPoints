@@ -37,6 +37,11 @@ if ( ! class_exists( 'MedWesthealthpoints_Settings1_Form', false ) ) :
 			global $wpdb;
 
 			$this->usersobject = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->prefix . 'medwesthealthpoints_users' );
+
+			// Getting number of results.
+			$this->limit = $wpdb->num_rows;
+
+
 			function comparator( $object1, $object2 ) {
 				return strcmp( $object1->userlastname, $object2->userlastname );
 			}
@@ -154,6 +159,8 @@ if ( ! class_exists( 'MedWesthealthpoints_Settings1_Form', false ) ) :
 										</div>
 										<div class="medwesthealthpoints-displayentries-response-div-wrapper" style="margin-top:0px; position: relative; bottom: 60px;">
 											<div class="medwesthealthpoints-spinner" id="medwesthealthpoints-spinner-1-' . $key . '"></div>
+											<div class="medwest-view-user-activities-wrapper"></div>
+											<button data-employeeid="' . $user->useridnumber . '" id="medwesthealthpoints-view-activities-user-button-' . $key . '" class="medwesthealthpoints-form-section-fields-input medwesthealthpoints-form-section-fields-input-button medwesthealthpoints-form-section-fields-input-button-view-acts">View User Activities</button>
 											<button id="medwesthealthpoints-edit-user-button-' . $key . '" class="medwesthealthpoints-form-section-fields-input medwesthealthpoints-form-section-fields-input-button medwesthealthpoints-form-section-fields-input-button-edit">Save User Edits</button>
 											<button style="display:none;" class="medwesthealthpoints-form-section-fields-input medwesthealthpoints-form-section-fields-input-button medwesthealthpoints-form-section-fields-input-button-delete">Delete User</button>
 											<div class="medwesthealthpoints-displayentries-response-div-actual-container"></div>
@@ -166,7 +173,57 @@ if ( ! class_exists( 'MedWesthealthpoints_Settings1_Form', false ) ) :
 
 				}
 
-				echo $string1 . $users_html;
+				if ( $offset < $page_limit ) {
+					$styledisableleft = 'style="pointer-events:none;opacity:0.5;"';
+				}
+
+				$whole_pages = floor( count( $this->usersobject ) / $page_limit );
+
+				// Determing whether there is a partial page, whose contents contains less books than amount set to be displayed per page in the backend settings. Will only be 0 if total number of books is evenly divisible by EDIT_PAGE_OFFSET.
+				$remainder_pages = count( $this->usersobject ) % $page_limit;
+				if ( 0 !== $remainder_pages ) {
+					$remainder_pages = 1;
+				}
+
+				// If there's only one page, don't show pagination.
+				if ( ( 1 === $whole_pages && 0 === $remainder_pages ) || ( 0 === $whole_pages && 1 === $remainder_pages ) ) {
+					return;
+				}
+
+				// The loop that will create the <option> html for the <select>.
+				for ( $i = 1; $i <= ( $whole_pages + $remainder_pages ); $i++ ) {
+
+					if ( ( 1 + ( 0 / $page_limit ) ) === $i ) {
+						$pagination_options_string = $pagination_options_string . '<option value=' . ( ( $i - 1 ) * $page_limit ) . ' selected>' . $this->trans->trans_600 . ' ' . $i . '</option>';
+					} else {
+						$pagination_options_string = $pagination_options_string . '<option value=' . ( ( $i - 1 ) * $page_limit ) . '>' . $this->trans->trans_600 . ' ' . $i . '</option>';
+					}
+				}
+
+				
+				$string_pagination = '
+						<div class="medwest-pagination-div">
+							<div class="medwest-pagination-div-inner">
+								<div data-limit="' . $this->limit . '" id="medwest-edit-previous-100" class="medwest-pagination-left-div" ' . $styledisableleft . ' data-offset="' . $prevnum . '">
+									<p><img class="medwest-pagination-prev-img" src="' . MEDWESTHEALTHPOINTS_ROOT_IMG_URL . 'next-left.png" />Previous</p>
+								</div>
+								<div class="medwest-pagination-middle-div">
+									<select data-limit="' . $this->limit . '" class="medwest-pagination-middle-div-select">
+										' . $pagination_options_string . '
+									</select>
+								</div>
+								<div data-limit="' . $this->limit . '" id="medwest-edit-next-100" class="medwest-pagination-right-div" ' . $styledisableright . ' data-offset="' . $nextnum . '">
+									<p>Next Page<img class="medwest-pagination-prev-img" src="' . MEDWESTHEALTHPOINTS_ROOT_IMG_URL . 'next-right.png" /></p>
+								</div>
+							</div>
+						</div>
+						<div class="medwesthealthpoints-spinner" id="medwest-spinner-pagination"></div>';
+
+
+
+				echo $string1 . $users_html . $string_pagination;
+
 			}
+
 	}
 endif;

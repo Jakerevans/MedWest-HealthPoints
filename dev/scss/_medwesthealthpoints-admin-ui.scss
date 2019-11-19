@@ -618,3 +618,69 @@ div#medwest-create-reward-backend-button-wrapper{
 .medwesthealthpoints-user-title-div{
     padding:10px;
 }
+
+.medwest-pagination-div-inner p {
+    margin: 0px;
+}
+
+.medwest-pagination-prev-img {
+    width: 16px;
+    position: relative;
+    top: 3px;
+}
+
+.medwest-pagination-left-div .medwesthealthpoints-pagination-prev-img {
+    right: 3px;
+}
+
+.medwest-pagination-div .medwest-pagination-div-inner .medwest-pagination-left-div, .medwest-pagination-div .medwest-pagination-div-inner .medwest-pagination-right-div {
+    border-radius: 6px;
+    cursor: pointer;
+    border: solid;
+    box-shadow: 0px 0px 8px #888;
+    border-color: transparent;
+    font-size: 12px;
+    font-style: italic;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+#medwest-edit_books-pagination-div, .medwest-pagination-div-inner {
+    text-align: center;
+    margin-top:50px;
+}
+
+.medwest-pagination-left-div, .medwest-pagination-middle-div, .medwest-pagination-right-div {
+    display: inline-block;
+    cursor: pointer;
+}
+
+.medwest-pagination-middle-div-select {
+    position: relative;
+    bottom: 3px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.medwest-view-user-activities-wrapper{
+    padding: 10px;
+}
+
+.medwest-view-user-activities-wrapper .medwest-pending-activities-left-wrapper, .medwest-view-user-activities-wrapper .medwest-pending-activities-right-wrapper{
+    text-align: center;
+}
+
+.medwest-view-user-activities-wrapper .medwest-pending-activities-top-indiv-wrapper {
+    border: solid 1px #ccc;
+    padding: 10px;
+    display: inline-block;
+    margin: 10px;
+}
+
+.medwesthealthpoints-form-section-editusers-wrapper, #medwest-form-create-reward-top-wrapper{
+    background-color: #E7FFFF;
+}
+
+.medwest-pending-activities-top-indiv-wrapper{
+    background: #fff;
+}

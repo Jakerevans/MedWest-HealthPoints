@@ -26,6 +26,25 @@ if ( ! class_exists( 'MedWestHealthPoints_Ajax_Functions', false ) ) :
 
 		}
 
+		/**
+		 * Callback function for the Edit Book pagination.
+		 */
+		public function medwesthealthpoints_edit_book_pagination_action_callback() {
+			global $wpdb;
+			check_ajax_referer( 'medwesthealthpoints_edit_book_pagination_action_callback', 'security' );
+
+			if ( isset( $_POST['currentOffset'] ) ) {
+				$current_offset = filter_var( wp_unslash( $_POST['currentOffset'] ), FILTER_SANITIZE_NUMBER_INT );
+			}
+
+
+			require_once MEDWESTHEALTHPOINTS_CLASS_DIR . 'class-submenu-two-tab-two-form.php';
+			$form     = new MedWesthealthpoints_Settings1_Form();
+			echo $form->output_settings1_form( $current_offset, 50 );
+			//echo $form->output_edit_book_form( $library, $current_offset ) . '_Separator_' . $library;
+			wp_die();
+		}
+
 
 		public function medwesthealthpoints_register_new_user_action_callback() {
 			error_log('fdsfdsa');
@@ -189,10 +208,65 @@ if ( ! class_exists( 'MedWestHealthPoints_Ajax_Functions', false ) ) :
 
 		}
 
+		public function medwesthealthpoints_view_user_activity_action_callback() {
+
+			global $wpdb;
+			check_ajax_referer( 'medwesthealthpoints_view_user_activity_action_callback', 'security' );
+
+			$activityemployeeid = '';
+
+			if ( isset( $_POST['activityemployeeid'] ) ) {
+				$activityemployeeid = filter_var( wp_unslash( $_POST['activityemployeeid'] ), FILTER_SANITIZE_STRING );
+			}
+
+			$result = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->prefix . 'medwesthealthpoints_activities_submitted WHERE activityemployeeid = ' . $activityemployeeid . ' ORDER BY `activitydateperformed` DESC' );
 
 
+			$activities_html = '<p>Uh-Oh! Looks like there\'s no saved Activities for this employee!</p>';
+			foreach ( $result as $key => $activity ) {
 
+				if ( 1 === $key ) {
+					$activities_html = '';
+				}
 
+				//if ( 'pending' === $activity->activitystatus ) {
+
+					$this->activitiesobject = $wpdb->get_row( 'SELECT * FROM ' . $wpdb->prefix . 'medwesthealthpoints_activities WHERE activityname = "' . $activity->activityname . '"' );
+
+					// Get associated employee info
+					$this->userobject = $wpdb->get_row( 'SELECT * FROM ' . $wpdb->prefix . 'medwesthealthpoints_users WHERE useridnumber = ' . $activity->activityemployeeid );
+
+					$supportingdoclink = '';
+					$supportingdoctext = '';
+					$supportingdocstyle = '';
+					if ( null === $activity->activitysupportingdocs || '' === $activity->activitysupportingdocs ) {
+						$supportingdoctext = 'No Supporting Documentation Provided!';
+						$supportingdoclink = '';
+						$supportingdocstyle = 'style="pointer-events:none;"';
+
+					} else {
+						$supportingdoctext = 'Click For Supporting Documentation...';
+						$supportingdoclink = $activity->activitysupportingdocs;
+						$supportingdocstyle = '';
+					}
+
+					$activities_html = $activities_html . '
+					<div class="medwest-pending-activities-top-indiv-wrapper">
+						<div class="medwest-pending-activities-left-wrapper">
+							<p class="medwest-pending-activities-left-title">Activity Name: ' . $activity->activityname . '</p>
+							<p>Activity Category: ' . ucfirst( $activity->activitycategory ) . '</p>
+							<p>Performed on: ' . $activity->activitydateperformed . '</p>
+							<p>Activity Status: ' . ucfirst( $activity->activitystatus ) . '</p>
+							<p><a ' . $supportingdocstyle . ' target="_blank" href="' . $supportingdoclink . '">' . $supportingdoctext . '</a></p>
+						</div>
+					</div>';
+				//}
+			}
+
+		
+			wp_die( $activities_html );
+
+		}
 
 
 
@@ -208,7 +282,6 @@ if ( ! class_exists( 'MedWestHealthPoints_Ajax_Functions', false ) ) :
 
 
 		public function medwesthealthpoints_save_activity_user_action_callback() {
-			error_log('fdsfdgfgfdgfdsa');
 
 			global $wpdb;
 			//check_ajax_referer( 'medwesthealthpoints_save_activity_user_action', 'security' );

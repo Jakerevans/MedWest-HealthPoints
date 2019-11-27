@@ -271,7 +271,70 @@ if ( ! class_exists( 'MedWestHealthPoints_Ajax_Functions', false ) ) :
 
 
 
+		public function medwesthealthpoints_dismiss_activity_denied_action_callback() {
 
+			global $wpdb;
+			check_ajax_referer( 'medwesthealthpoints_dismiss_activity_denied_action_callback', 'security' );
+			$id = '';
+
+			if ( isset( $_POST['id'] ) ) {
+				$id = filter_var( wp_unslash( $_POST['id'] ), FILTER_SANITIZE_NUMBER_INT );
+			}
+
+			error_log('yoyoyoy' . $id);
+
+			$result = $wpdb->delete( $wpdb->prefix . 'medwesthealthpoints_notifications', array( 'ID' => $id ), array( '%d' ) );
+			wp_die( $result );
+
+		}
+
+		public function medwesthealthpoints_edit_user_profile_action_callback() {
+
+			global $wpdb;
+			check_ajax_referer( 'medwesthealthpoints_edit_user_profile_action_callback', 'security' );
+			$id = '';
+
+			$wpuserid     = '';
+			$usertableid  = '';
+			$usernewemail = '';
+
+			if ( isset( $_POST['wpuserid'] ) ) {
+				$wpuserid = filter_var( wp_unslash( $_POST['wpuserid'] ), FILTER_SANITIZE_NUMBER_INT );
+			}
+
+			if ( isset( $_POST['usertableid'] ) ) {
+				$usertableid = filter_var( wp_unslash( $_POST['usertableid'] ), FILTER_SANITIZE_NUMBER_INT );
+			}
+
+			if ( isset( $_POST['usernewemail'] ) ) {
+				$usernewemail = filter_var( wp_unslash( $_POST['usernewemail'] ), FILTER_SANITIZE_STRING );
+			}
+
+			error_log('yoyoyoyrrrr' . $usernewemail);
+
+			$user_data = wp_update_user( array( 'ID' => $wpuserid, 'user_email' => $usernewemail ) );
+ 
+			if ( is_wp_error( $user_data ) ) {
+			    // There was an error; possibly this user doesn't exist.
+			    echo 'Error.';
+			} else {
+			    // Success!
+			    echo 'User profile updated.';
+			}
+
+			// Now deduct points from the user's points pool.
+			$data         = array(
+				'useremail' => $usernewemail,
+			);
+			$format       = array( '%s' );
+			$where        = array( 'ID' => $usertableid );
+			$where_format = array( '%d' );
+			$result = $wpdb->update( $wpdb->prefix . 'medwesthealthpoints_users', $data, $where, $format, $where_format );
+
+			//$result = $wpdb->delete( $wpdb->prefix . 'medwesthealthpoints_notifications', array( 'ID' => $id ), array( '%d' ) );
+			wp_die( $result );
+
+		}
 
 
 
@@ -524,7 +587,60 @@ if ( ! class_exists( 'MedWestHealthPoints_Ajax_Functions', false ) ) :
 				$activityid = filter_var( wp_unslash( $_POST['activityid'] ), FILTER_SANITIZE_STRING );
 			}
 
+			if ( isset( $_POST['useremail'] ) ) {
+				$useremail = filter_var( wp_unslash( $_POST['useremail'] ), FILTER_SANITIZE_STRING );
+			}
+
+			if ( isset( $_POST['denialreason'] ) ) {
+				$denialreason = filter_var( wp_unslash( $_POST['denialreason'] ), FILTER_SANITIZE_STRING );
+			}
+
+			if ( isset( $_POST['useridnumber'] ) ) {
+				$useridnumber = filter_var( wp_unslash( $_POST['useridnumber'] ), FILTER_SANITIZE_STRING );
+			}
+
+			if ( isset( $_POST['userwpuserid'] ) ) {
+				$userwpuserid = filter_var( wp_unslash( $_POST['userwpuserid'] ), FILTER_SANITIZE_STRING );
+			}
+
+			if ( isset( $_POST['activityname'] ) ) {
+				$activityname = filter_var( wp_unslash( $_POST['activityname'] ), FILTER_SANITIZE_STRING );
+			}
+
+			// Now send an email to the user informing them that their Activity was denied, and the reason why.
+			$to      = $useremail;
+			$subject = 'Your HealthPoints Activity Was Denied!';
+			$body    = 'Sorry to be the bearer of bad news, but your HealthPoints Activity was denied! Here\'s the reason why:<br/><br/>' . $denialreason;
+			$headers = array('Content-Type: text/html; charset=UTF-8');
+			wp_mail( $to, $subject, $body, $headers );
+
 			$wpdb->delete( $wpdb->prefix . 'medwesthealthpoints_activities_submitted', array( 'ID' => $activityid ), array( '%d' ) );
+
+
+
+			// Now add the user to the custom table.
+			$notification_table_array = array(
+				'notificationuseridnumber' => $useridnumber,
+				'notificationuserwpuserid' => $userwpuserid,
+				'notificationtext'         => $denialreason,
+				'notificationtype'         => 'activitydenial',
+				'notificationactivityname' => $activityname,
+			);
+
+			$notification_table_dbtype_array = array(
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+			);
+
+			$notification_table_result = $wpdb->insert( $wpdb->prefix . 'medwesthealthpoints_notifications', $notification_table_array, $notification_table_dbtype_array );
+			$user_id                    = $wpdb->insert_id;
+
+
+
+
 
 			wp_die();
 
@@ -630,6 +746,7 @@ if ( ! class_exists( 'MedWestHealthPoints_Ajax_Functions', false ) ) :
 			$activityname        = '';
 			$activitypointsvalue = '';
 			$activitycategory    = '';
+			$activitysupportingdocsrequired = '';
 
 			if ( isset( $_POST['activityname'] ) ) {
 				$activityname = filter_var( wp_unslash( $_POST['activityname'] ), FILTER_SANITIZE_STRING );
@@ -643,16 +760,22 @@ if ( ! class_exists( 'MedWestHealthPoints_Ajax_Functions', false ) ) :
 				$activitycategory = filter_var( wp_unslash( $_POST['activitycategory'] ), FILTER_SANITIZE_STRING );
 			}
 
+			if ( isset( $_POST['activitysupportingdocsrequired'] ) ) {
+				$activitysupportingdocsrequired = filter_var( wp_unslash( $_POST['activitysupportingdocsrequired'] ), FILTER_SANITIZE_STRING );
+			}
+
 			// Now add the user to the custom table.
 			$activity_table_array = array(
 				'activityname'       => $activityname,
 				'activitypointsvalue' => $activitypointsvalue,
 				'activitycategory'   => $activitycategory,
+				'activitysupportingdocsrequired' => $activitysupportingdocsrequired,
 			);
 
 			$activity_table_dbtype_array = array(
 				'%s',
 				'%d',
+				'%s',
 				'%s',
 			);
 
@@ -929,7 +1052,6 @@ error_log('hmm2');
 			global $wpdb;
 			check_ajax_referer( 'medwesthealthpoints_edit_activity_action_callback', 'security' );
 
-			error_log('gfdgfdsgfdgfdsgf');
 
 			$activityname       = '';
 			$activitypointvalue = '';
@@ -948,6 +1070,10 @@ error_log('hmm2');
 				$activitycategory = filter_var( wp_unslash( $_POST['activitycategory'] ), FILTER_SANITIZE_STRING );
 			}
 
+			if ( isset( $_POST['activitysupportingdocsrequired'] ) ) {
+				$activitysupportingdocsrequired = filter_var( wp_unslash( $_POST['activitysupportingdocsrequired'] ), FILTER_SANITIZE_STRING );
+			}
+
 			if ( isset( $_POST['id'] ) ) {
 				$id = filter_var( wp_unslash( $_POST['id'] ), FILTER_SANITIZE_NUMBER_INT );
 			}
@@ -956,8 +1082,9 @@ error_log('hmm2');
 				'activityname'        => $activityname,
 				'activitypointsvalue' => $activitypointsvalue,
 				'activitycategory'    => $activitycategory,
+				'activitysupportingdocsrequired' => $activitysupportingdocsrequired,
 			);
-			$format       = array( '%s','%d','%s',);
+			$format       = array( '%s','%d','%s','%s' );
 			$where        = array( 'ID' => $id );
 			$where_format = array( '%d' );
 			$results = $wpdb->update( $wpdb->prefix .'medwesthealthpoints_activities', $data, $where, $format, $where_format );

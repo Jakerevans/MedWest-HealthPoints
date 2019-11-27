@@ -47,9 +47,11 @@ if ( ! class_exists( 'MedWesthealthpoints_settings2_Form', false ) ) :
 						</div>';
 
 			$activity_html = '';
+			$activty_supporting_required = '';
 			foreach ( $this->activityobject as $key => $activity ) {
 
 				$option_html = '';
+				$docs_html = '';
 				switch ( $activity->activitycategory ) {
 					case 'Wellness':
 						$option_html = '<option disabled>Select An Activity Category...</option>
@@ -84,6 +86,21 @@ if ( ! class_exists( 'MedWesthealthpoints_settings2_Form', false ) ) :
 						break;
 				}
 
+				switch ( $activity->activitysupportingdocsrequired ) {
+					case 'Yes':
+						$docs_html = '<option selected>Yes</option>
+										<option>No</option>';
+						break;
+					case 'No':
+						$docs_html = '<option>Yes</option>
+										<option selected>No</option>';
+						break;
+					default:
+						$docs_html = '<option>Yes</option>
+										<option>No</option>';
+						break;
+				}
+
 				$activity_html = $activity_html . '
 					<div id="medwest-form-create-reward-top-wrapper">
 						<div id="medwest-form-create-reward-wrapper">
@@ -101,6 +118,12 @@ if ( ! class_exists( 'MedWesthealthpoints_settings2_Form', false ) ) :
 							<div>
 								<label>Points Value</label>
 								<input id="medwest-input-activitypointsvalue" type="number" value="' . $activity->activitypointsvalue . '"/>
+							</div>
+							<div>
+								<label>Supporting Documentation Required?</label>
+								<select id="medwest-input-supportingdocsrequired">
+									' . $docs_html . '
+								</select>
 							</div>
 							<div id="medwest-create-reward-backend-button-wrapper">
 								<div style="display: block; margin-left:auto; margin-right:auto;" class="medwesthealthpoints-spinner" id="medwesthealthpoints-spinner-1"></div>

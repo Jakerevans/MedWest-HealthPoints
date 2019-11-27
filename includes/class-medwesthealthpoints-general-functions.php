@@ -225,6 +225,7 @@ if ( ! class_exists( 'MedWestHealthPoints_General_Functions', false ) ) :
 			$wpdb->medwesthealthpoints_activities = "{$wpdb->prefix}medwesthealthpoints_activities";
 			$wpdb->medwesthealthpoints_activities_submitted = "{$wpdb->prefix}medwesthealthpoints_activities_submitted";
 			$wpdb->medwesthealthpoints_rewardrequests = "{$wpdb->prefix}medwesthealthpoints_rewardrequests";
+			$wpdb->medwesthealthpoints_notifications = "{$wpdb->prefix}medwesthealthpoints_notifications";
 		}
 
 		/**
@@ -380,6 +381,45 @@ if ( ! class_exists( 'MedWestHealthPoints_General_Functions', false ) ) :
 				$table_name = $wpdb->prefix . 'medwesthealthpoints_activities';
 				//$wpdb->insert( $table_name, array( 'ID' => 1, ) );
 			}
+
+
+
+
+
+
+			$sql_create_table7 = "CREATE TABLE {$wpdb->medwesthealthpoints_notifications}
+			(
+				ID bigint(190) auto_increment,
+				notificationtype varchar(255),
+				notificationtext MEDIUMTEXT,
+				notificationuseridnumber varchar(255),
+				notificationuserwpuserid varchar(255),
+				notificationactivityname varchar(255),
+				PRIMARY KEY  (ID),
+				KEY notificationtype (notificationtype)
+			) $charset_collate; ";
+
+			// If table doesn't exist, create table and add initial data to it.
+			$test_name = $wpdb->prefix . 'medwesthealthpoints_notifications';
+			if ( $test_name !== $wpdb->get_var( "SHOW TABLES LIKE '$test_name'" ) ) {
+				dbDelta( $sql_create_table7 );
+				$table_name = $wpdb->prefix . 'medwesthealthpoints_notifications';
+				//$wpdb->insert( $table_name, array( 'ID' => 1, ) );
+			}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 		}
 

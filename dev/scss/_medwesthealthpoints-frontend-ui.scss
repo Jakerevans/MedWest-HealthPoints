@@ -248,4 +248,19 @@
 	margin: 0;
 }
 
+.medwest-frontend-edit-profile{
+	cursor: pointer;	
+}
+
+.medwest-denied-activity-div{
+	margin-top:10px;
+	margin-bottom: 10px;
+	border: solid 1px #eee;
+    padding: 10px;
+}
+
+#medwest-denied-activity-div-text-message p{
+	margin:0;
+}
+
 @keyframes rotation{0%{transform:rotate(0)}100%{transform:rotate(359deg)}}

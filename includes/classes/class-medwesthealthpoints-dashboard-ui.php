@@ -312,6 +312,24 @@ if ( ! class_exists( 'MedWestHealthPoints_Dashboard_UI', false ) ) :
 			$category_past_education         = '';
 			$category_past_event             = '';
 
+			// Get any Denied Activities the User may have.
+			$this->deniedactivitiesobject = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->prefix . 'medwesthealthpoints_notifications WHERE notificationuseridnumber = ' . $this->userobject->useridnumber );
+
+			// Now build the Denied Activities HTML
+			$deniedactivityhtml = '';
+			foreach ( $this->deniedactivitiesobject as $deniedkey => $deniedvalue ) {
+				$deniedactivityhtml = $deniedactivityhtml . '
+					<div class="medwest-denied-activity-div">
+						<div id="medwest-denied-activity-div-text-message">
+							<p>Whoops! Looks like your "' . $deniedvalue->notificationactivityname  . '" Activity Submission was denied!</p>
+							<p>Please consider correcting the error below and re-submitting your Activity. Sorry for the hassle!</p>
+							<p style="margin-top: 10px; margin-bottom:10px;"><strong>Reason for Denial:</strong> ' . $deniedvalue->notificationtext . '</p>
+						</div>
+						<button data-id="' . $deniedvalue->ID . '" data-activityname="' . $deniedvalue->notificationactivityname  . '" data-wpuserid="' . $this->userobject->userwpuserid  . '" data-useremail="' . $this->userobject->useremail  . '" data-useremployeeid="' . $this->userobject->useridnumber . '" class="medwest-denied-activity-div-text-button">I Got It!</button>
+					</div>';
+			}
+
+
 			foreach ( $this->activitiessubmittedobject as $key => $activity ) {
 				// Build out the Dropdowns and the individual saved Activities entries.
 				switch ( $activity->activitycategory ) {
@@ -374,16 +392,16 @@ if ( ! class_exists( 'MedWestHealthPoints_Dashboard_UI', false ) ) :
 				// Build out the Dropdowns and the individual saved Activities entries.
 				switch ( $activity->activitycategory ) {
 					case 'Wellness':
-						$category_dropdown_wellness = $category_dropdown_wellness . '<option value="' . $activity->activityname . '">' . $activity->activityname . '</option>';
+						$category_dropdown_wellness = $category_dropdown_wellness . '<option data-requireddocs="' . $activity->activitysupportingdocsrequired . '" value="' . $activity->activityname . '">' . $activity->activityname . '</option>';
 						break;
 					case 'Education':
-						$category_dropdown_education = $category_dropdown_education . '<option value="' . $activity->activityname . '">' . $activity->activityname . '</option>';
+						$category_dropdown_education = $category_dropdown_education . '<option data-requireddocs="' . $activity->activitysupportingdocsrequired . '" value="' . $activity->activityname . '">' . $activity->activityname . '</option>';
 						break;
 					case 'Exercise':
-						$category_dropdown_exercise = $category_dropdown_exercise . '<option value="' . $activity->activityname . '">' . $activity->activityname . '</option>';
+						$category_dropdown_exercise = $category_dropdown_exercise . '<option data-requireddocs="' . $activity->activitysupportingdocsrequired . '" value="' . $activity->activityname . '">' . $activity->activityname . '</option>';
 						break;
 					case 'Event':
-						$category_dropdown_event = $category_dropdown_event . '<option value="' . $activity->activityname . '">' . $activity->activityname . '</option>';
+						$category_dropdown_event = $category_dropdown_event . '<option data-requireddocs="' . $activity->activitysupportingdocsrequired . '" value="' . $activity->activityname . '">' . $activity->activityname . '</option>';
 						break;
 					default:
 						# code...
@@ -397,8 +415,13 @@ if ( ! class_exists( 'MedWestHealthPoints_Dashboard_UI', false ) ) :
 			$category_dropdown_event     = $category_dropdown_event . '</select>';
 
 			$this->loggedin_dashboard_html_output = '
+				<div id="medwest-notification-div">
+					' . $deniedactivityhtml . '
+				</div>
 				<div id="medwest-loggedin-title-div">
-					<p>Welcome ' . $this->userobject->userfirstname . '!<br/><a style="font-variant: all-petite-caps;" href="' . wp_logout_url( get_permalink() ) . '">Logout</a></p>
+					<p>Welcome ' . $this->userobject->userfirstname . '!<br/><a style="font-variant: all-petite-caps;" href="' . wp_logout_url( get_permalink() ) . '">Logout</a><br/>
+					<a data-wpuserid="' . $this->userobject->userwpuserid . '" data-usertableid="' . $this->userobject->ID . '" data-saveedits="false" class="medwest-frontend-edit-profile" style="font-variant: all-petite-caps;" >Edit Profile</a>
+					</p>
 				</div>
 				<div id="medwest-loggedin-profile-wrapper">
 					<div class="medwest-loggedin-indiv-profile-piece-wrapper">
@@ -415,8 +438,14 @@ if ( ! class_exists( 'MedWestHealthPoints_Dashboard_UI', false ) ) :
 					</div>
 					<div class="medwest-loggedin-indiv-profile-piece-wrapper">
 						<div class="medwest-loggedin-indiv-wrapper-actual">
-							<div class="medwest-loggedin-indiv-wrapper-actual-title">Total HealthPoints:</div>
+							<div class="medwest-loggedin-indiv-wrapper-actual-title">HealthPoints:</div>
 							<div class="medwest-loggedin-indiv-wrapper-actual-data">' . $this->userobject->userhealthpoints . '</div>
+						</div>
+					</div>
+					<div class="medwest-loggedin-indiv-profile-piece-wrapper">
+						<div class="medwest-loggedin-indiv-wrapper-actual">
+							<div class="medwest-loggedin-indiv-wrapper-actual-title">User Email:</div>
+							<input disabled type="text" class="medwest-loggedin-indiv-wrapper-actual-data" id="medwest-loggedin-indiv-wrapper-actual-data-email-edit" value="' . $this->userobject->useremail . '"/>
 						</div>
 					</div>
 					<div class="medwest-loggedin-indiv-profile-piece-wrapper">
@@ -508,7 +537,6 @@ if ( ! class_exists( 'MedWestHealthPoints_Dashboard_UI', false ) ) :
 							' . $category_past_education . '
 							</div>
 						</div>
-
 						<div class="medwest-saved-activities-top-wrapper" id="medwest-saved-activities-top-wrapper-event" data-activity="event">
 							<div id="medwest-loggedin-title-div">
 								<p id="medwest-dynamic-record-view-activity-title">View Your Saved Event Activities Below</p>

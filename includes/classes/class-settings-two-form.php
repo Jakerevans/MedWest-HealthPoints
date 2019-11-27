@@ -62,6 +62,13 @@ if ( ! class_exists( 'MedWesthealthpoints_settings2_Form', false ) ) :
 								<label>Points Value</label>
 								<input id="medwest-input-activitypointsvalue" type="number" />
 							</div>
+							<div>
+								<label>Supporting Documentation Required?</label>
+								<select id="medwest-input-supportingdocsrequired">
+									<option>Yes</option>
+									<option>No</option>
+								</select>
+							</div>
 							<div id="medwest-create-reward-backend-button-wrapper">
 								<div style="display: block; margin-left:auto; margin-right:auto;" class="medwesthealthpoints-spinner" id="medwesthealthpoints-spinner-1"></div>
 								<button id="medwest-create-activity-backend-button">Create Activity!</button>

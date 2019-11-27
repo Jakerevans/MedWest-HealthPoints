@@ -284,7 +284,7 @@
 .medwest-pending-activities-top-indiv-wrapper{
     border: solid 1px #eee;
     padding: 10px;
-    display: flex;
+    display: block;
     margin-top: 10px;
 }
 
@@ -683,4 +683,18 @@ div#medwest-create-reward-backend-button-wrapper{
 
 .medwest-pending-activities-top-indiv-wrapper{
     background: #fff;
+}
+
+.medwest-activity-deny-wrapper{
+    margin-top:30px;
+    height: 0px;
+    overflow: hidden;
+}
+
+.medwest-deny-activity-actual-reason{
+    display:block;
+    margin-left:auto;
+    margin-right:auto;
+    margin-top: 10px;
+    margin-bottom:10px;
 }

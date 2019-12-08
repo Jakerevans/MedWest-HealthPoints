@@ -37,6 +37,13 @@ if ( ! class_exists( 'MedWesthealthpoints_Settings1_Form', false ) ) :
 			global $wpdb;
 
 			$this->usersobject = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->prefix . 'medwesthealthpoints_users' );
+			$this->activitiesobject = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->prefix . 'medwesthealthpoints_activities' );
+
+			$activities_html = '<select><option selected default disabled>Choose an Activity...</option>';
+			foreach ( $this->activitiesobject as $act_key => $act_value ) {
+				$activities_html = $activities_html . '<option data-activityid="' . $act_value->ID . '">' . $act_value->activityname . '</option>';
+			}
+			$activities_html = $activities_html . '</select>';
 
 			// Getting number of results.
 			$this->limit = $wpdb->num_rows;
@@ -155,6 +162,10 @@ if ( ! class_exists( 'MedWesthealthpoints_Settings1_Form', false ) ) :
 											<div class="medwesthealthpoints-form-section-fields-indiv-wrapper">
 												<label class="medwesthealthpoints-form-section-fields-label">HealthPoints</label>
 												<input id="medwesthealthpoints-form-healthpoints-' . $key . '" data-ignore="false" data-required="true" class="medwesthealthpoints-form-section-fields-input medwesthealthpoints-form-section-fields-input-text"  data-dbtype="%s" data-dbnum="firstnum" type="number" value="' . $user->userhealthpoints . '" />
+											</div>
+											<div class="medwesthealthpoints-form-section-fields-indiv-wrapper">
+												<label class="medwesthealthpoints-form-section-fields-label">Assign Activity to User?</label>
+												' . $activities_html . '
 											</div>
 										</div>
 										<div class="medwesthealthpoints-displayentries-response-div-wrapper" style="margin-top:0px; position: relative; bottom: 60px;">

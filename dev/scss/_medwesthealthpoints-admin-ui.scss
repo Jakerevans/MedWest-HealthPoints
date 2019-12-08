@@ -386,7 +386,7 @@ div#medwest-create-reward-backend-button-wrapper{
     width:300px;
 }
 
-.medwesthealthpoints-form-section-fields-indiv-wrapper input[type="number"], .medwesthealthpoints-form-section-fields-indiv-wrapper input[type="text"], .medwesthealthpoints-form-section-fields-indiv-wrapper input[type="password"], #medwesthealthpoints-form-vetstate{
+.medwesthealthpoints-form-section-fields-indiv-wrapper input[type="number"], .medwesthealthpoints-form-section-fields-indiv-wrapper input[type="text"], .medwesthealthpoints-form-section-fields-indiv-wrapper input[type="password"], #medwesthealthpoints-form-vetstate, .medwesthealthpoints-form-section-fields-indiv-wrapper select{
     width:300px;
     margin-bottom: 10px;
     display: block;
@@ -697,4 +697,24 @@ div#medwest-create-reward-backend-button-wrapper{
     margin-right:auto;
     margin-top: 10px;
     margin-bottom:10px;
+}
+
+.medwest-adduserstoactivity-checkbox-holder{
+    display: block!important;
+    height:0px;
+    opacity:0;
+    overflow: hidden;
+}
+
+.medwest-adduserstoactivity-checkbox-holder div{
+    width: 100px;
+}
+
+
+.medwest-adduserstoactivity-checkbox-holder label{
+    font-size: 10px;
+}
+
+.medwest-adduserstoactivity-checkbox-holder button{
+    margin:5px;
 }

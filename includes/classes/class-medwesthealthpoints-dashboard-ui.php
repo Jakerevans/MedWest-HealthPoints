@@ -557,7 +557,7 @@ if ( ! class_exists( 'MedWestHealthPoints_Dashboard_UI', false ) ) :
 								</div>
 								<div class="medwest-fields-organizer">
 									<label class="medwest-form-section-fields-label" style="color: black;">Supporting Documentation:</label>
-									<input data-ignore="false" data-required="true" data-dbtype="%s" data-dbname="vetdd214" class="medwest-form-section-fields-input medwest-form-section-fields-input-text" id="medwest-form-vetdd214-0" type="text" value="' . $this->userveteranobject->vetdd214 . '">
+									<input data-ignore="false" data-required="' . $this->activitiesobject->activitysupportingdocsrequired . '" data-dbtype="%s" data-dbname="vetdd214" class="medwest-form-section-fields-input medwest-form-section-fields-input-text" id="medwest-form-vetdd214-0" type="text" value="' . $this->userveteranobject->vetdd214 . '">
 									<button class="medwest-form-section-fields-input medwest-form-section-fields-input-button medwest-form-section-fields-input-file-upload-button" id="medwest-form-button-vetdd214-0" data-dbtype="%s" data-dbname="vetdd214-button">Choose File</button>
 								</div>
 							</div>

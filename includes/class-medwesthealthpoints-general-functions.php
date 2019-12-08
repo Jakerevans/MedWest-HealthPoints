@@ -473,5 +473,15 @@ if ( ! class_exists( 'MedWestHealthPoints_General_Functions', false ) ) :
 			return $query;
 		}
 
+		/**
+		 *  Code for adding file that prevents computer sleep during book addition.
+		 */
+		public function medwesthealthpoints_bulkuseractivityaddition_sleep_script() {
+			if ( current_user_can( 'administrator' ) ) {
+		    	wp_register_script( 'medwesthealthpoints-bulkuseractivityaddition-sleepjs', MEDWESTHEALTHPOINTS_JS_URL . 'nosleep/sleep.js', array( 'jquery' ) );
+		    	wp_enqueue_script( 'medwesthealthpoints-bulkuseractivityaddition-sleepjs' );
+			}
+		}
+
 	}
 endif;

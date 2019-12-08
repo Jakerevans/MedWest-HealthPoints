@@ -244,6 +244,10 @@ if ( ! class_exists( 'MedWestHealthPoints_Ajax_Functions', false ) ) :
 						$supportingdoclink = '';
 						$supportingdocstyle = 'style="pointer-events:none;"';
 
+					} else if ( 'Admin Assigned - No Supporting Docs' === $activity->activitysupportingdocs ) {
+						$supportingdoctext = 'Admin Assigned - No Supporting Docs';
+						$supportingdoclink = $activity->activitysupportingdocs;
+						$supportingdocstyle = 'style="pointer-events:none;"';
 					} else {
 						$supportingdoctext = 'Click For Supporting Documentation...';
 						$supportingdoclink = $activity->activitysupportingdocs;
@@ -349,12 +353,15 @@ if ( ! class_exists( 'MedWestHealthPoints_Ajax_Functions', false ) ) :
 			global $wpdb;
 			//check_ajax_referer( 'medwesthealthpoints_save_activity_user_action', 'security' );
 
+			sleep( 1 );
+
 			$activityname           = '';
 			$activitycategory       = '';
 			$activitydateperformed  = '';
 			$activitysupportingdocs = '';
 			$activitywpuserid       = '';
 			$activityemployeeid     = '';
+			$activitystatus			= '';
 
 			if ( isset( $_POST['activityname'] ) ) {
 				$activityname = filter_var( wp_unslash( $_POST['activityname'] ), FILTER_SANITIZE_STRING );
@@ -380,6 +387,12 @@ if ( ! class_exists( 'MedWestHealthPoints_Ajax_Functions', false ) ) :
 				$activityemployeeid = filter_var( wp_unslash( $_POST['activityemployeeid'] ), FILTER_SANITIZE_STRING );
 			}
 
+			if ( isset( $_POST['activitystatus'] ) ) {
+				$activitystatus = filter_var( wp_unslash( $_POST['activitystatus'] ), FILTER_SANITIZE_STRING );
+			} else {
+				$activitystatus = 'pending';
+			}
+
 
 			// Now add the user to the custom table.
 			$activitiessubmitted_table_array = array(
@@ -389,7 +402,7 @@ if ( ! class_exists( 'MedWestHealthPoints_Ajax_Functions', false ) ) :
 				'activitysupportingdocs' => $activitysupportingdocs,
 				'activitywpuserid'       => $activitywpuserid,
 				'activityemployeeid'     => $activityemployeeid,
-				'activitystatus'         => 'pending',
+				'activitystatus'         => $activitystatus,
 			);
 
 			$activitiessubmitted_table_dbtype_array = array(
@@ -524,14 +537,19 @@ if ( ! class_exists( 'MedWestHealthPoints_Ajax_Functions', false ) ) :
 			$where_format = array( '%d' );
 			$wpdb->update( $wpdb->prefix . 'medwesthealthpoints_users', $data, $where, $format, $where_format );
 
-			// Now change the status of the submitted Activity.
-			$data         = array(
-				'activitystatus' => 'Approved',
-			);
-			$format       = array( '%s' );
-			$where        = array( 'ID' => $activityid );
-			$where_format = array( '%d' );
-			$wpdb->update( $wpdb->prefix . 'medwesthealthpoints_activities_submitted', $data, $where, $format, $where_format );
+			// Basically, if the Admin is approving an individual submitted activity, we proceed. If it's a Bulk-Add when creating a new Activity, we don't.
+			if ( '' !== $activityid ) {
+
+				// Now change the status of the submitted Activity.
+				$data         = array(
+					'activitystatus' => 'Approved',
+				);
+				$format       = array( '%s' );
+				$where        = array( 'ID' => $activityid );
+				$where_format = array( '%d' );
+				$wpdb->update( $wpdb->prefix . 'medwesthealthpoints_activities_submitted', $data, $where, $format, $where_format );
+
+			}
 
 			wp_die();
 

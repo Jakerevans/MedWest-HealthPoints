@@ -10,7 +10,7 @@
  * @wordpress-plugin
  * Plugin Name: MedWestHealthPoints Extension
  * Plugin URI: https://www.jakerevans.com
- * Description: A WordPress Plugin that let's Medwest Employees earn Rewards for Health Activities!
+ * Description: A WordPress Plugin that manages and administers Rewards for Health Activities!
  * Version: 1.0.0
  * Author: Jake Evans
  * Text Domain: medwesthealthpoints
@@ -238,6 +238,9 @@ global $wpdb;
 
 	// Function that allows Subscribers to see only their uploaded docs.
 	add_action( 'ajax_query_attachments_args', array( $medwesthealthpoints_general_functions, 'medwesthealthpoints_show_current_user_attachments' ) );
+
+	// Code for adding file that prevents computer sleep during the bulk-upload process
+	add_action( 'admin_enqueue_scripts', array( $medwesthealthpoints_general_functions, 'medwesthealthpoints_bulkuseractivityaddition_sleep_script' ) );
 
 
 

@@ -39,9 +39,9 @@ if ( ! class_exists( 'MedWesthealthpoints_Settings1_Form', false ) ) :
 			$this->usersobject = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->prefix . 'medwesthealthpoints_users' );
 			$this->activitiesobject = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->prefix . 'medwesthealthpoints_activities' );
 
-			$activities_html = '<select><option selected default disabled>Choose an Activity...</option>';
+			$activities_html = '<select class="medwest-add-user-to-activity-while-editing"><option selected default disabled>Choose an Activity...</option>';
 			foreach ( $this->activitiesobject as $act_key => $act_value ) {
-				$activities_html = $activities_html . '<option data-activityid="' . $act_value->ID . '">' . $act_value->activityname . '</option>';
+				$activities_html = $activities_html . '<option data-wpuserid="' . $act_value->activitycategory . '" data-activitycategory="' . $act_value->activitycategory . '" data-activityname="' . $act_value->activityname . '" data-activitypoints="' . $act_value->activitypointsvalue . '" data-activityid="' . $act_value->ID . '">' . $act_value->activityname . '</option>';
 			}
 			$activities_html = $activities_html . '</select>';
 
@@ -172,7 +172,7 @@ if ( ! class_exists( 'MedWesthealthpoints_Settings1_Form', false ) ) :
 											<div class="medwesthealthpoints-spinner" id="medwesthealthpoints-spinner-1-' . $key . '"></div>
 											<div class="medwest-view-user-activities-wrapper"></div>
 											<button data-employeeid="' . $user->useridnumber . '" id="medwesthealthpoints-view-activities-user-button-' . $key . '" class="medwesthealthpoints-form-section-fields-input medwesthealthpoints-form-section-fields-input-button medwesthealthpoints-form-section-fields-input-button-view-acts">View User Activities</button>
-											<button id="medwesthealthpoints-edit-user-button-' . $key . '" class="medwesthealthpoints-form-section-fields-input medwesthealthpoints-form-section-fields-input-button medwesthealthpoints-form-section-fields-input-button-edit">Save User Edits</button>
+											<button data-useridnumber="' . $user->useridnumber . '" data-activitywpuserid="' . $user->userwpuserid . '" id="medwesthealthpoints-edit-user-button-' . $key . '" class="medwesthealthpoints-form-section-fields-input medwesthealthpoints-form-section-fields-input-button medwesthealthpoints-form-section-fields-input-button-edit">Save User Edits</button>
 											<button style="display:none;" class="medwesthealthpoints-form-section-fields-input medwesthealthpoints-form-section-fields-input-button medwesthealthpoints-form-section-fields-input-button-delete">Delete User</button>
 											<div class="medwesthealthpoints-displayentries-response-div-actual-container"></div>
 										</div>

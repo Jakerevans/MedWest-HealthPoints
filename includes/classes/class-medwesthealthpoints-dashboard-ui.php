@@ -331,6 +331,29 @@ if ( ! class_exists( 'MedWestHealthPoints_Dashboard_UI', false ) ) :
 
 
 			foreach ( $this->activitiessubmittedobject as $key => $activity ) {
+
+				// Make sure we lowercase the Category names...
+				$activity->activitycategory = strtolower( $activity->activitycategory );
+
+				$supportingdoclink  = '';
+				$supportingdoctext  = '';
+				$supportingdocstyle = '';
+				if ( null === $activity->activitysupportingdocs || '' === $activity->activitysupportingdocs ) {
+					$supportingdoctext = 'No Supporting Documentation Provided!';
+					$supportingdoclink = '';
+					$supportingdocstyle = 'style="pointer-events:none;"';
+
+				} else if ( 'Admin Assigned - No Supporting Docs' === $activity->activitysupportingdocs ) {
+					$supportingdoctext = 'Admin Assigned - No Supporting Docs';
+					$supportingdoclink = $activity->activitysupportingdocs;
+					$supportingdocstyle = 'style="pointer-events:none;"';
+				} else {
+					$supportingdoctext = 'Click For Supporting Documentation...';
+					$supportingdoclink = $activity->activitysupportingdocs;
+					$supportingdocstyle = '';
+				}
+
+
 				// Build out the Dropdowns and the individual saved Activities entries.
 				switch ( $activity->activitycategory ) {
 					case 'wellness':
@@ -340,7 +363,7 @@ if ( ! class_exists( 'MedWestHealthPoints_Dashboard_UI', false ) ) :
 							<div>
 								<p>Date Performed: ' . $activity->activitydateperformed . '</p>
 								<p>Activity Status: ' . ucfirst( $activity->activitystatus ) . '</p>
-								<p><a href="' . $activity->activitysupportingdocs . '">Click Here To See Supporting Documentation</a></p>
+								<p><a ' . $supportingdocstyle . ' href="' . $supportingdoclink . '">' . $supportingdoctext . '</a></p>
 								<p></p>
 							</div>
 						</div>';
@@ -352,7 +375,7 @@ if ( ! class_exists( 'MedWestHealthPoints_Dashboard_UI', false ) ) :
 							<div>
 								<p>Date Performed: ' . $activity->activitydateperformed . '</p>
 								<p>Activity Status: ' . $activity->activitystatus . '</p>
-								<p><a href="' . $activity->activitysupportingdocs . '">Click Here To See Supporting Documentation</a></p>
+								<p><a ' . $supportingdocstyle . ' href="' . $supportingdoclink . '">' . $supportingdoctext . '</a></p>
 								<p></p>
 							</div>
 						</div>';
@@ -364,7 +387,7 @@ if ( ! class_exists( 'MedWestHealthPoints_Dashboard_UI', false ) ) :
 							<div>
 								<p>Date Performed: ' . $activity->activitydateperformed . '</p>
 								<p>Activity Status: ' . $activity->activitystatus . '</p>
-								<p><a href="' . $activity->activitysupportingdocs . '">Click Here To See Supporting Documentation</a></p>
+								<p><a ' . $supportingdocstyle . ' href="' . $supportingdoclink . '">' . $supportingdoctext . '</a></p>
 								<p></p>
 							</div>
 						</div>';
@@ -376,7 +399,7 @@ if ( ! class_exists( 'MedWestHealthPoints_Dashboard_UI', false ) ) :
 							<div>
 								<p>Date Performed: ' . $activity->activitydateperformed . '</p>
 								<p>Activity Status: ' . $activity->activitystatus . '</p>
-								<p><a href="' . $activity->activitysupportingdocs . '">Click Here To See Supporting Documentation</a></p>
+								<p><a ' . $supportingdocstyle . ' href="' . $supportingdoclink . '">' . $supportingdoctext . '</a></p>
 								<p></p>
 							</div>
 						</div>';

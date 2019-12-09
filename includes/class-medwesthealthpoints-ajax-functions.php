@@ -535,7 +535,7 @@ if ( ! class_exists( 'MedWestHealthPoints_Ajax_Functions', false ) ) :
 			$format       = array( '%d' );
 			$where        = array( 'useridnumber' => $useridnumber );
 			$where_format = array( '%d' );
-			$wpdb->update( $wpdb->prefix . 'medwesthealthpoints_users', $data, $where, $format, $where_format );
+			$pointsupdateresults = $wpdb->update( $wpdb->prefix . 'medwesthealthpoints_users', $data, $where, $format, $where_format );
 
 			// Basically, if the Admin is approving an individual submitted activity, we proceed. If it's a Bulk-Add when creating a new Activity, we don't.
 			if ( '' !== $activityid ) {
@@ -551,7 +551,7 @@ if ( ! class_exists( 'MedWestHealthPoints_Ajax_Functions', false ) ) :
 
 			}
 
-			wp_die();
+			wp_die( $pointsupdateresults );
 
 		}
 

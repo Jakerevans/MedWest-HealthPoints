@@ -227,6 +227,9 @@ global $wpdb;
 	// Adding the front-end login / dashboard shortcode.
 	add_shortcode( 'medwesthealthpoints_login_shortcode', array( $medwesthealthpoints_general_functions, 'medwesthealthpoints_login_shortcode_function' ) );
 
+	// Adding the front-end login / dashboard shortcode.
+	add_shortcode( 'medwesthealthpoints_account_shortcode', array( $medwesthealthpoints_general_functions, 'medwesthealthpoints_account_shortcode_function' ) );
+
 	// Function that logs in a user automatically after they've first registered.
 	add_action( 'wp_head', array( $medwesthealthpoints_general_functions, 'medwesthealthpoints_hideadminbar_for_subs' ) );
 

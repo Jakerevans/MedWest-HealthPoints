@@ -2,7 +2,7 @@
 
 <?php
 /**
- * MedWestHealthPoints_Dashboard_UI Class that dispalys the login form or the user dashboard - class-medwesthealthpoints-dashboard-ui.php
+ * MedWestHealthPoints_Account_Dashboard_UI Class that dispalys the login form or the user dashboard - class-medwesthealthpoints-dashboard-ui.php
  *
  * @author   Jake Evans
  * @category Admin
@@ -14,12 +14,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( ! class_exists( 'MedWestHealthPoints_Dashboard_UI', false ) ) :
+if ( ! class_exists( 'MedWestHealthPoints_Account_Dashboard_UI', false ) ) :
 
 	/**
 	 * MedWestHealthPoints_Admin_Menu Class.
 	 */
-	class MedWestHealthPoints_Dashboard_UI {
+	class MedWestHealthPoints_Account_Dashboard_UI {
 
 		public $userloggedin                         = false;
 		public $usertype                             = false;
@@ -450,12 +450,8 @@ endwhile;
 					' . $deniedactivityhtml . '
 				</div>
 				<div id="medwest-rev-and-message-container">
-					
-'.
-
-do_shortcode('[vc_row][vc_column width="2/3"][rev_slider_vc alias="testalias"][/vc_column][vc_column width="1/3"][vc_raw_html]JTNDZGl2JTIwaWQlM0QlMjJtZWR3ZXN0LXJldi1hbmQtbWVzc2FnZS1jb250YWluZXItaGVhbHRocG9pbnRzJTIyJTNFJTBBJTIwJTIwJTNDZGl2JTIwaWQlM0QlMjJtZWR3ZXN0LXJldi1hbmQtbWVzc2FnZS1sZWZ0JTIyJTNFJTBBJTNDaW1nJTIwc3JjJTNEJTIyaHR0cHMlM0ElMkYlMkZ3ZWxsbmVzcy5tZWRpY2Fsd2VzdGhvc3BpdGFsLm9yZyUyRndwLWNvbnRlbnQlMkZ1cGxvYWRzJTJGMjAyMCUyRjAxJTJGd2VsbG5lc3MtbG9nby5wbmclMjIlMjAlMkYlM0UlMEElM0MlMkZkaXYlM0UlMEElM0NkaXYlMjBpZCUzRCUyMm1lZHdlc3QtcmV2LWFuZC1tZXNzYWdlLXJpZ2h0JTIyJTNFJTBBJTIwJTIwJTNDcCUyMGlkJTNEJTIybWVkd2VzdC1yZXYtYW5kLW1lc3NhZ2UtcDElMjIlM0VZT1UlMjBIQVZFJTNDJTJGcCUzRSUwQSUyMCUyMCUzQ3AlMjBpZCUzRCUyMm1lZHdlc3QtcmV2LWFuZC1tZXNzYWdlLXAyJTIyJTNFJTNDJTJGcCUzRSUwQSUyMCUyMCUzQ3AlMjBpZCUzRCUyMm1lZHdlc3QtcmV2LWFuZC1tZXNzYWdlLXAzJTIyJTNFSEVBTFRIUE9JTlRTJTNDJTJGcCUzRSUwQSUyMCUyMCUzQ3AlMjBzdHlsZSUzRCUyMmZvbnQtc3R5bGUlM0FpdGFsaWMlM0IlMjIlMjBjbGFzcyUzRCUyMm1lZHdlc3QtbG9nZ2VkaW4taW5kaXYtd3JhcHBlci1hY3R1YWwtZGF0YSUyMiUyMGlkJTNEJTIybWVkd2VzdC1sb2dnZWRpbi1mcm9udGVuZC1jb2xvcmJveC10cmlnZ2VyJTIyJTNFQ2xpY2slMjBoZXJlJTIwdG8lMjByZWRlZW0lMjBhJTIwcmV3YXJkJTIxJTNDJTJGcCUzRSUwQSUzQyUyRmRpdiUzRSUwQSUwQSUwQSUzQyUyRmRpdiUzRQ==[/vc_raw_html][vc_basic_grid post_type="post" max_items="1" element_width="12" grid_id="vc_gid:1578925866525-dc399e3c-7e36-1"][/vc_column][/vc_row]').'
+				
 				</div>
-				<!--
 				<div id="medwest-loggedin-title-div">
 					<p>Welcome ' . $this->userobject->userfirstname . '!<br/><a style="font-variant: all-petite-caps;" href="' . wp_logout_url( get_permalink() ) . '">Logout</a><br/>
 					<a data-wpuserid="' . $this->userobject->userwpuserid . '" data-usertableid="' . $this->userobject->ID . '" data-saveedits="false" class="medwest-frontend-edit-profile" style="font-variant: all-petite-caps;" >Edit Profile</a>
@@ -496,8 +492,8 @@ do_shortcode('[vc_row][vc_column width="2/3"][rev_slider_vc alias="testalias"][/
 				<div id="medwest-loggedin-title-div">
 					<p>Activities</p>
 				</div>
-				-->
 				<div class="medwest-record-view-rows-wrapper">
+					<!--
 					<div class="medwest-record-view-rows">
 						<div style="background-color:#306c4b;" class="medwest-loggedin-indiv-profile-piece-wrapper-button" data-category="record-exercise">
 							<div class="medwest-loggedin-indiv-wrapper-actual-button">
@@ -520,32 +516,31 @@ do_shortcode('[vc_row][vc_column width="2/3"][rev_slider_vc alias="testalias"][/
 							</div>
 						</div>
 					</div>
-					<!--
+					-->
 					<div class="medwest-record-view-rows">
-						<div class="medwest-loggedin-indiv-profile-piece-wrapper-button" data-category="view-exercise">
+						<div style="background-color:#306c4b;" class="medwest-loggedin-indiv-profile-piece-wrapper-button" data-category="view-exercise">
 							<div class="medwest-loggedin-indiv-wrapper-actual-button">
-								<div class="medwest-loggedin-indiv-wrapper-actual-data-button">View Exercise Activity</div>
+								<div class="medwest-loggedin-indiv-wrapper-actual-data-button"><div class="medwest-loggedin-record-img"><img src="' . MEDWESTHEALTHPOINTS_ROOT_IMG_URL . 'settings.svg"/></div><div class="medwest-loggedin-record-text">VIEW<br/><span style="font-weight:bold;">EXERCISE</span> ACTIVITIES</div></div>
 							</div>
 						</div>
-						<div class="medwest-loggedin-indiv-profile-piece-wrapper-button" data-category="view-wellness">
+						<div style="background-color:#609a3c;" class="medwest-loggedin-indiv-profile-piece-wrapper-button" data-category="view-wellness">
 							<div class="medwest-loggedin-indiv-wrapper-actual-button">
-								<div class="medwest-loggedin-indiv-wrapper-actual-data-button">View Wellness Activity</div>
+								<div class="medwest-loggedin-indiv-wrapper-actual-data-button"><div class="medwest-loggedin-record-img"><img src="' . MEDWESTHEALTHPOINTS_ROOT_IMG_URL . 'settings.svg"/></div><div class="medwest-loggedin-record-text">VIEW<br/><span style="font-weight:bold;">WELLNESS</span> ACTIVITIES</div></div>
 							</div>
 						</div>
-						<div class="medwest-loggedin-indiv-profile-piece-wrapper-button" data-category="view-education">
+						<div style="background-color:#6ab9b1;" class="medwest-loggedin-indiv-profile-piece-wrapper-button" data-category="view-education">
 							<div class="medwest-loggedin-indiv-wrapper-actual-button">
-								<div class="medwest-loggedin-indiv-wrapper-actual-data-button">View Education Activity</div>
+								<div class="medwest-loggedin-indiv-wrapper-actual-data-button"><div class="medwest-loggedin-record-img"><img src="' . MEDWESTHEALTHPOINTS_ROOT_IMG_URL . 'settings.svg"/></div><div class="medwest-loggedin-record-text">VIEW<br/><span style="font-weight:bold;">EDUCATION</span> ACTIVITIES</div></div>
 							</div>
 						</div>
-						<div class="medwest-loggedin-indiv-profile-piece-wrapper-button" data-category="view-event">
+						<div style="background-color:#316861;" class="medwest-loggedin-indiv-profile-piece-wrapper-button" data-category="view-event">
 							<div class="medwest-loggedin-indiv-wrapper-actual-button">
-								<div class="medwest-loggedin-indiv-wrapper-actual-data-button">View Event Activity</div>
+								<div class="medwest-loggedin-indiv-wrapper-actual-data-button"><div class="medwest-loggedin-record-img"><img src="' . MEDWESTHEALTHPOINTS_ROOT_IMG_URL . 'settings.svg"/></div><div class="medwest-loggedin-record-text">VIEW<br/><span style="font-weight:bold;">EVENT</span> ACTIVITIES</div></div>
 							</div>
 						</div>
 					</div>
-					-->
 					<div id="medwest-hidden-rewards-html-popup" style="display: none;">' . $popup_html . '</div>
-					<div class="medwest-record-view-rows-actual">
+					<div class="medwest-record-view-rows-actual medwest-record-view-rows-save-data">
 						<div style="display: none;">
 							<div id="medwest-dropdown-wellness">' . $category_dropdown_wellness . '</div>
 							<div id="medwest-dropdown-exercise">' . $category_dropdown_exercise . '</div>
@@ -554,7 +549,7 @@ do_shortcode('[vc_row][vc_column width="2/3"][rev_slider_vc alias="testalias"][/
 						</div>
 						<div class="medwest-saved-activities-top-wrapper" id="medwest-saved-activities-top-wrapper-wellness" data-activity="wellness">
 							<div id="medwest-loggedin-title-div">
-								<p id="medwest-dynamic-record-view-activity-title">View Your Saved Wellness Activities Below</p>
+								<p class="medwest-dynamic-record-view-activity-title">View Your Saved Wellness Activities Below</p>
 							</div>
 							<div class="medwest-saved-activities-all-wrapper">
 							' . $category_past_wellness . '
@@ -563,7 +558,7 @@ do_shortcode('[vc_row][vc_column width="2/3"][rev_slider_vc alias="testalias"][/
 
 						<div class="medwest-saved-activities-top-wrapper" id="medwest-saved-activities-top-wrapper-exercise" data-activity="exercise">
 							<div id="medwest-loggedin-title-div">
-								<p id="medwest-dynamic-record-view-activity-title">View Your Saved Exercise Activities Below</p>
+								<p class="medwest-dynamic-record-view-activity-title">View Your Saved Exercise Activities Below</p>
 							</div>
 							<div class="medwest-saved-activities-all-wrapper">
 							' . $category_past_exercise . '
@@ -572,7 +567,7 @@ do_shortcode('[vc_row][vc_column width="2/3"][rev_slider_vc alias="testalias"][/
 
 						<div class="medwest-saved-activities-top-wrapper" id="medwest-saved-activities-top-wrapper-education" data-activity="education">
 							<div id="medwest-loggedin-title-div">
-								<p id="medwest-dynamic-record-view-activity-title">View Your Saved Education Activities Below</p>
+								<p class="medwest-dynamic-record-view-activity-title">View Your Saved Education Activities Below</p>
 							</div>
 							<div class="medwest-saved-activities-all-wrapper">
 							' . $category_past_education . '
@@ -580,7 +575,7 @@ do_shortcode('[vc_row][vc_column width="2/3"][rev_slider_vc alias="testalias"][/
 						</div>
 						<div class="medwest-saved-activities-top-wrapper" id="medwest-saved-activities-top-wrapper-event" data-activity="event">
 							<div id="medwest-loggedin-title-div">
-								<p id="medwest-dynamic-record-view-activity-title">View Your Saved Event Activities Below</p>
+								<p class="medwest-dynamic-record-view-activity-title">View Your Saved Event Activities Below</p>
 							</div>
 							<div class="medwest-saved-activities-all-wrapper">
 							' . $category_past_event . '
@@ -588,7 +583,7 @@ do_shortcode('[vc_row][vc_column width="2/3"][rev_slider_vc alias="testalias"][/
 						</div>
 						<div id="medwest-record-view-rows-actual-form-wrapper">
 							<div id="medwest-loggedin-title-div">
-								<p id="medwest-dynamic-record-view-activity-title">Record Your Activity</p>
+								<p class="medwest-dynamic-record-view-activity-title">Record Your Activity</p>
 							</div>
 							<div id="medwest-record-view-rows-actual-fields-wrapper">
 								<div id="medwest-dynamic-record-view-activity-dropdown">' . $category_dropdown_wellness . '</div>
@@ -607,7 +602,7 @@ do_shortcode('[vc_row][vc_column width="2/3"][rev_slider_vc alias="testalias"][/
 						</div>
 					</div>
 				</div>
-
+				
 			';
 
 

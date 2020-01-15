@@ -161,6 +161,14 @@ if ( ! class_exists( 'MedWestHealthPoints_General_Functions', false ) ) :
 			$final_array_of_php_values['FOR_TAB_HIGHLIGHT']    = admin_url() . 'admin.php';
 			$final_array_of_php_values['SAVED_ATTACHEMENT_ID'] = get_option( 'media_selector_attachment_id', 0 );
 			$final_array_of_php_values['DB_PREFIX'] = $wpdb->prefix;
+			$final_array_of_php_values['LOGOUT_URL'] = wp_logout_url( get_permalink() );
+
+			// Add in the User's HealthPoints to the Front-End...
+			global $wpdb;
+			$this->currentwpuserid  = get_current_user_id();
+			$this->userobject = $wpdb->get_row( 'SELECT * FROM ' . $wpdb->prefix . 'medwesthealthpoints_users WHERE userwpuserid = ' . $this->currentwpuserid );
+			$final_array_of_php_values['USERHEALTHPOINTS'] = $this->userobject->userhealthpoints;
+			$final_array_of_php_values['USERFIRSTNAME'] = $this->userobject->userfirstname;
 
 			// Now grab all of our Nonces to pass to the JavaScript for the Ajax functions and merge with the Translations array.
 			$final_array_of_php_values = array_merge( $final_array_of_php_values, json_decode( MEDWEST_FINAL_NONCES_ARRAY, true ) );
@@ -431,6 +439,18 @@ if ( ! class_exists( 'MedWestHealthPoints_General_Functions', false ) ) :
 			ob_start();
 			include_once MEDWESTHEALTHPOINTS_CLASS_DIR . 'class-medwesthealthpoints-dashboard-ui.php';
 			$front_end_ui = new MedWestHealthPoints_Dashboard_UI();
+			return ob_get_clean();
+
+		}
+
+		/**
+		 *  The shortcode for displaying the Saved Activities and other account info.
+		 */
+		public function medwesthealthpoints_account_shortcode_function() {
+
+			ob_start();
+			include_once MEDWESTHEALTHPOINTS_CLASS_DIR . 'class-medwesthealthpoints-account-dashboard-ui.php';
+			$front_end_ui = new MedWestHealthPoints_Account_Dashboard_UI();
 			return ob_get_clean();
 
 		}

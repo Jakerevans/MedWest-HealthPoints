@@ -501,22 +501,22 @@ do_shortcode('[vc_row][vc_column width="2/3"][rev_slider_vc alias="testalias"][/
 					<div class="medwest-record-view-rows">
 						<div style="background-color:#306c4b;" class="medwest-loggedin-indiv-profile-piece-wrapper-button" data-category="record-exercise">
 							<div class="medwest-loggedin-indiv-wrapper-actual-button">
-								<div class="medwest-loggedin-indiv-wrapper-actual-data-button"><div class="medwest-loggedin-record-img"><img src="' . MEDWESTHEALTHPOINTS_ROOT_IMG_URL . 'settings.svg"/></div><div class="medwest-loggedin-record-text">RECORD AN<br/><span style="font-weight:bold;">EXERCISE</span> ACTIVITY</div></div>
+								<div class="medwest-loggedin-indiv-wrapper-actual-data-button"><div class="medwest-loggedin-record-img"><img src="' . MEDWESTHEALTHPOINTS_ROOT_IMG_URL . 'Dumbbell-01.png"/></div><div class="medwest-loggedin-record-text">RECORD AN<br/><span style="font-weight:bold;">EXERCISE</span> ACTIVITY</div></div>
 							</div>
 						</div>
 						<div style="background-color:#609a3c;" class="medwest-loggedin-indiv-profile-piece-wrapper-button" data-category="record-wellness">
 							<div class="medwest-loggedin-indiv-wrapper-actual-button">
-								<div class="medwest-loggedin-indiv-wrapper-actual-data-button"><div class="medwest-loggedin-record-img"><img src="' . MEDWESTHEALTHPOINTS_ROOT_IMG_URL . 'settings.svg"/></div><div class="medwest-loggedin-record-text">RECORD A<br/><span style="font-weight:bold;">WELLNESS</span> ACTIVITY</div></div>
+								<div class="medwest-loggedin-indiv-wrapper-actual-data-button"><div class="medwest-loggedin-record-img"><img src="' . MEDWESTHEALTHPOINTS_ROOT_IMG_URL . 'Heart-01.png"/></div><div class="medwest-loggedin-record-text">RECORD A<br/><span style="font-weight:bold;">WELLNESS</span> ACTIVITY</div></div>
 							</div>
 						</div>
 						<div style="background-color:#6ab9b1;" class="medwest-loggedin-indiv-profile-piece-wrapper-button" data-category="record-education">
 							<div class="medwest-loggedin-indiv-wrapper-actual-button">
-								<div class="medwest-loggedin-indiv-wrapper-actual-data-button"><div class="medwest-loggedin-record-img"><img src="' . MEDWESTHEALTHPOINTS_ROOT_IMG_URL . 'settings.svg"/></div><div class="medwest-loggedin-record-text">RECORD AN<br/><span style="font-weight:bold;">EDUCATION</span> ACTIVITY</div></div>
+								<div class="medwest-loggedin-indiv-wrapper-actual-data-button"><div class="medwest-loggedin-record-img"><img src="' . MEDWESTHEALTHPOINTS_ROOT_IMG_URL . 'Pencil-01.png"/></div><div class="medwest-loggedin-record-text">RECORD AN<br/><span style="font-weight:bold;">EDUCATION</span> ACTIVITY</div></div>
 							</div>
 						</div>
 						<div style="background-color:#316861;" class="medwest-loggedin-indiv-profile-piece-wrapper-button" data-category="record-event">
 							<div class="medwest-loggedin-indiv-wrapper-actual-button">
-								<div class="medwest-loggedin-indiv-wrapper-actual-data-button"><div class="medwest-loggedin-record-img"><img src="' . MEDWESTHEALTHPOINTS_ROOT_IMG_URL . 'settings.svg"/></div><div class="medwest-loggedin-record-text">RECORD AN<br/><span style="font-weight:bold;">EVENT</span> ACTIVITY</div></div>
+								<div class="medwest-loggedin-indiv-wrapper-actual-data-button"><div class="medwest-loggedin-record-img"><img src="' . MEDWESTHEALTHPOINTS_ROOT_IMG_URL . 'Location-01.png"/></div><div class="medwest-loggedin-record-text">RECORD AN<br/><span style="font-weight:bold;">EVENT</span> ACTIVITY</div></div>
 							</div>
 						</div>
 					</div>

@@ -174,6 +174,11 @@ if ( ! class_exists( 'MedWesthealthpoints_Settings1_Form', false ) ) :
 											<button data-employeeid="' . $user->useridnumber . '" id="medwesthealthpoints-view-activities-user-button-' . $key . '" class="medwesthealthpoints-form-section-fields-input medwesthealthpoints-form-section-fields-input-button medwesthealthpoints-form-section-fields-input-button-view-acts">View User Activities</button>
 											<button data-useridnumber="' . $user->useridnumber . '" data-activitywpuserid="' . $user->userwpuserid . '" id="medwesthealthpoints-edit-user-button-' . $key . '" class="medwesthealthpoints-form-section-fields-input medwesthealthpoints-form-section-fields-input-button medwesthealthpoints-form-section-fields-input-button-edit">Save User Edits</button>
 											<button style="display:none;" class="medwesthealthpoints-form-section-fields-input medwesthealthpoints-form-section-fields-input-button medwesthealthpoints-form-section-fields-input-button-delete">Delete User</button>
+											<button data-useridnumber="' . $user->useridnumber . '" data-activitywpuserid="' . $user->userwpuserid . '" id="medwesthealthpoints-delete-user-button-' . $key . '" class="medwesthealthpoints-form-section-fields-input medwesthealthpoints-form-section-fields-input-button medwesthealthpoints-form-section-fields-input-button-delete">Delete User</button>
+											<div class="medwesthealthpoints-user-deletion-verification">
+												<p>Are you sure? Every piece of information associated with this user will be gone forever!</p>
+												<button data-useridnumber="' . $user->useridnumber . '" data-activitywpuserid="' . $user->userwpuserid . '" id="medwesthealthpoints-delete-user-button-' . $key . '" class="medwesthealthpoints-form-section-fields-input medwesthealthpoints-form-section-fields-input-button medwesthealthpoints-form-section-fields-input-button-delete-actual">I\'m Sure - Delete This User!</button>
+											</div>
 											<div class="medwesthealthpoints-displayentries-response-div-actual-container"></div>
 										</div>
 									</div>

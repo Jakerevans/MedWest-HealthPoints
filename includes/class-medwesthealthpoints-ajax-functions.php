@@ -225,7 +225,7 @@ if ( ! class_exists( 'MedWestHealthPoints_Ajax_Functions', false ) ) :
 			$activities_html = '<p>Uh-Oh! Looks like there\'s no saved Activities for this employee!</p>';
 			foreach ( $result as $key => $activity ) {
 
-				if ( 1 === $key ) {
+				if ( 0 === $key ) {
 					$activities_html = '';
 				}
 
